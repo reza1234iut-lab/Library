@@ -175,15 +175,15 @@ ul{list-style:none}
 .notif-sheet-head h3{font-size:1rem;font-weight:700}
 .notif-sheet-list{flex:1;overflow-y:auto}
 .notif-empty{padding:60px 20px;text-align:center;color:var(--slate-500);font-size:.875rem}
-.notif-item{padding:14px 20px;border-bottom:1px solid var(--slate-100);transition:background .15s var(--ease);display:flex;gap:12px;cursor:pointer}
-.notif-item:hover{background:var(--slate-50)}
+.notif-item{padding:14px 20px;border-bottom:1px solid var(--slate-100);transition:background .15s var(--ease);display:flex;flex-direction:column;gap:8px}
 .notif-item.unread{background:var(--brand-50)}
-.notif-item.unread:hover{background:var(--brand-100)}
+.notif-item .row1{display:flex;gap:12px;align-items:flex-start}
 .notif-item .dot{width:8px;height:8px;border-radius:50%;background:var(--brand-500);flex-shrink:0;margin-top:8px}
 .notif-item .body{flex:1}
 .notif-item .body b{font-size:.875rem;display:block;margin-bottom:3px;color:var(--slate-800)}
 .notif-item .body p{font-size:.8125rem;color:var(--slate-600);line-height:1.5}
 .notif-item .body time{font-size:.75rem;color:var(--slate-400);display:block;margin-top:4px}
+.notif-item .action-row{display:flex;justify-content:flex-end;gap:8px;margin-top:4px;padding-top:8px;border-top:1px dashed var(--slate-200)}
 
 .notif-badge{position:absolute;top:4px;left:4px;min-width:18px;height:18px;padding:0 5px;background:var(--danger-500);color:#fff;border-radius:var(--r-full);font-size:.6875rem;font-weight:700;display:grid;place-items:center;border:2px solid #fff}
 
@@ -395,6 +395,9 @@ button:focus-visible,a:focus-visible{outline-offset:2px}
         </div>
       </div>
       <div id="view"></div>
+<div style="text-align: center; color: var(--slate-400); font-size: 0.75rem; margin-top: 30px; padding-bottom: 20px;">
+        ساخته شده توسط R.K
+    </div>
     </div>
   </main>
 
@@ -594,6 +597,12 @@ function migrateState(data){
   if(!data.users.some(u => u.role === 'manager')){
     data.users.push({id:uid(), name:'مدیر سیستم', role:'manager', pin:hashPin(DEFAULT_PIN_MANAGER), pinChanged:false, position:'مدیر', shift:'تمام وقت', active:true});
   }
+  
+  // پاکسازی اعلان‌های قدیمی تر از ۷ روز
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  data.notifications = data.notifications.filter(n => new Date(n.createdAt) > sevenDaysAgo);
+
   data._schemaVersion = SCHEMA_VERSION;
   return data;
 }
@@ -661,11 +670,11 @@ function setupChannel(){
    AUTH
    ============================================================ */
 function getCurrentUser(){
-  const id = sessionStorage.getItem(SESSION_KEY);
+  const id = localStorage.getItem(SESSION_KEY);
   if(!id) return null;
   return state.users.find(u => u.id === id && u.active) || null;
 }
-function setCurrentUser(id){ sessionStorage.setItem(SESSION_KEY, id); }
+function setCurrentUser(id){ localStorage.setItem(SESSION_KEY, id); }
 
 function login(userId, pin){
   const u = state.users.find(x => x.id === userId);
@@ -677,7 +686,7 @@ function login(userId, pin){
 }
 
 function logout(){
-  sessionStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(SESSION_KEY);
   loginStep = 'select';
   pendingLoginUser = null;
   document.getElementById('app').hidden = true;
@@ -741,20 +750,38 @@ async function requestNotificationPermission() {
 }
 
 /* ============================================================
-   NOTIFICATIONS (Local)
+   NOTIFICATIONS
    ============================================================ */
 function notify(userId, title, body){
   const me = getCurrentUser();
   if(me && me.id === userId) return;
   
   state.notifications.unshift({id: uid(), userId, title, body, read:false, createdAt: nowISO()});
-  if(state.notifications.length > 200) state.notifications.length = 200;
-
+  
   fetch(`${API_URL}/api/notify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userId, title, body })
   }).catch(e => console.error('Push notify error:', e));
+}
+
+function markRead(id) {
+  const notif = state.notifications.find(n => n.id === id);
+  if(notif && !notif.read) {
+    notif.read = true;
+    notif.readBy = getCurrentUser().name;
+    
+    // به مدیر اطلاع بده
+    const mgr = state.users.find(u => u.role === 'manager');
+    if(mgr && mgr.id !== getCurrentUser().id) {
+      notify(mgr.id, 'اعلان خوانده شد', `پیام «${notif.title}» توسط ${getCurrentUser().name} خوانده شد.`);
+    }
+    logActivity('notif', `${getCurrentUser().name} پیام «${notif.title}» را خواند`, getCurrentUser().id);
+    
+    commit();
+    renderNotifList();
+    toast('به عنوان خوانده شده علامت‌گذاری شد');
+  }
 }
 
 function logActivity(type, message, userId){
@@ -769,10 +796,10 @@ function checkNewNotifs(){
   const unread = state.notifications.filter(n => n.userId === me.id && !n.read);
   if(!unread.length) return;
   const lastKey = 'lastNotif_' + me.id;
-  const lastId = sessionStorage.getItem(lastKey) || '';
+  const lastId = localStorage.getItem(lastKey) || '';
   const newest = unread[0];
   if(newest.id === lastId) return;
-  sessionStorage.setItem(lastKey, newest.id);
+  localStorage.setItem(lastKey, newest.id);
   showFloatingNotif(newest.title, newest.body);
 }
 
@@ -810,7 +837,7 @@ function toggleNotif(open){
 
 function renderNotifList(){
   const me = getCurrentUser();
-  const list = state.notifications.filter(n => n.userId === me.id).slice(0, 40);
+  const list = state.notifications.filter(n => n.userId === me.id).slice(0, 50);
   const el = document.getElementById('notifList');
   if(!list.length){
     el.innerHTML = `<div class="notif-empty"><div style="font-size:2rem;margin-bottom:12px">🎉</div><div>اعلان جدیدی ندارید</div></div>`;
@@ -818,11 +845,18 @@ function renderNotifList(){
   }
   el.innerHTML = list.map(n => `
     <div class="notif-item ${n.read?'':'unread'}">
-      ${n.read?'':'<div class="dot"></div>'}
-      <div class="body" style="flex:1">
-        <b>${esc(n.title)}</b>
-        <p>${esc(n.body)}</p>
-        <time>${timeAgo(n.createdAt)}</time>
+      <div class="row1">
+        ${n.read?'':'<div class="dot"></div>'}
+        <div class="body">
+          <b>${esc(n.title)}</b>
+          <p>${esc(n.body)}</p>
+          <time>${timeAgo(n.createdAt)}</time>
+        </div>
+      </div>
+      <div class="action-row">
+        ${!n.read 
+          ? `<button class="btn btn-sm btn-primary" onclick="markRead('${n.id}')">خواندم ✓</button>` 
+          : `<span class="badge badge-ok">خوانده شده توسط ${esc(n.readBy || 'کاربر')}</span>`}
       </div>
     </div>
   `).join('');
@@ -830,7 +864,12 @@ function renderNotifList(){
 
 function markAllRead(){
   const me = getCurrentUser();
-  state.notifications.forEach(n => { if(n.userId === me.id) n.read = true; });
+  state.notifications.forEach(n => { 
+    if(n.userId === me.id && !n.read) {
+      n.read = true;
+      n.readBy = me.name;
+    }
+  });
   commit();
   renderNotifList();
 }
@@ -1103,6 +1142,9 @@ function showApp(){
   render();
   updateNotifBadge();
   checkNewNotifs();
+  
+  // راه اندازی مجدد سوکت در صورت قطع بودن
+  if(!socket || !socket.connected) setupChannel();
 }
 
 function go(id){
@@ -2009,6 +2051,7 @@ function renderSettings(){
         <span style="color:var(--slate-600);font-size:.8125rem">حجم داده</span>
         <span style="font-weight:600;font-size:.8125rem">${dataSize} کیلوبایت</span>
       </div>
+      ${isManager ? `<button class="btn" onclick="requestNotificationPermission()">${ic('bell',16)} تست ارسال نوتیفیکیشن به مدیر</button>` : ''}
     </div>
   </div>
 
@@ -2036,7 +2079,7 @@ function renderSettings(){
 function resetAll(){
   if(!confirm('همه داده‌ها پاک شود؟')) return;
   if(!confirm('مطمئنید؟ همه کاربران، وظایف، رویدادها و کمدها حذف می‌شوند.')) return;
-  sessionStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(SESSION_KEY);
   state = seed();
   save(state).then(()=>{
     logout();
@@ -2086,7 +2129,8 @@ function importBackup(e){
     try{
       const normalized = migrateState(data);
       state = normalized;
-      await save(state);
+      await save(state); // ارسال به سرور و همگام سازی
+      
       const stillExists = getCurrentUser();
       if(!stillExists){
         toast('بازیابی انجام شد اما حساب شما در داده جدید یافت نشد. لطفاً دوباره وارد شوید.', true);
@@ -2122,11 +2166,29 @@ function handleAdd(){
    ============================================================ */
 async function init(){
   registerServiceWorker();
+  
+  // بارگذاری اولیه
   state = await load();
+  
+  // اتصال به وب‌سوکت
   setupChannel();
+  
   const me = getCurrentUser();
   if(me){ showApp(); }
   else { renderLoginScreen(); }
+
+  // همگام‌سازی پس‌زمینه: اگر برنامه از پس‌زمینه به جلو آمد، اطلاعات را آپدیت کن
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible' && getCurrentUser()) {
+      const newState = await load();
+      if (JSON.stringify(state) !== JSON.stringify(newState)) {
+        state = newState;
+        render();
+        updateNotifBadge();
+        checkNewNotifs();
+      }
+    }
+  });
 }
 
 document.addEventListener('gesturestart', e => e.preventDefault());
