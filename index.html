@@ -9,6 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<script src="https://nodejs-7ch0q6.chbkn.dev/socket.io/socket.io.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%;color-scheme:light;-webkit-tap-highlight-color:transparent}
@@ -252,34 +253,16 @@ ul{list-style:none}
 
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
-.default-pin-banner{
-  background:linear-gradient(135deg,var(--warn-500),var(--warn-600));color:#fff;
-  border-radius:var(--r-lg);padding:14px 18px;margin-bottom:18px;
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  box-shadow:0 8px 24px rgba(245,158,11,.35);
-}
+.default-pin-banner{background:linear-gradient(135deg,var(--warn-500),var(--warn-600));color:#fff;border-radius:var(--r-lg);padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 8px 24px rgba(245,158,11,.35)}
 .default-pin-banner .txt{flex:1;min-width:0}
 .default-pin-banner b{display:block;font-size:.875rem;margin-bottom:2px}
 .default-pin-banner p{font-size:.8125rem;opacity:.92}
-.default-pin-banner button{
-  background:#fff;color:var(--warn-700);border:none;font-weight:700;
-  padding:8px 16px;border-radius:var(--r-md);font-size:.8125rem;white-space:nowrap;
-  transition:all .15s var(--ease);
-}
+.default-pin-banner button{background:#fff;color:var(--warn-700);border:none;font-weight:700;padding:8px 16px;border-radius:var(--r-md);font-size:.8125rem;white-space:nowrap;transition:all .15s var(--ease)}
 .default-pin-banner button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
 
-.notif-banner {
-  background: linear-gradient(135deg, #8b5cf6, var(--brand-600)); color: white; 
-  padding: 16px; border-radius: var(--r-md); margin-bottom: 20px;
-  display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  box-shadow: 0 8px 24px rgba(99,102,241,0.35); flex-wrap: wrap;
-}
-.notif-banner button {
-  background: white; color: var(--brand-600); border: none;
-  padding: 8px 16px; border-radius: var(--r-sm); font-weight: bold; cursor: pointer;
-  transition: all .15s;
-}
-.notif-banner button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.notif-banner{background:linear-gradient(135deg,#8b5cf6,var(--brand-600));color:#fff;padding:16px;border-radius:var(--r-md);margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(99,102,241,0.35);flex-wrap:wrap}
+.notif-banner button{background:#fff;color:var(--brand-600);border:none;padding:8px 16px;border-radius:var(--r-sm);font-weight:bold;cursor:pointer;transition:all .15s}
+.notif-banner button:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
 
 .backdrop{position:fixed;inset:0;z-index:100;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
 .backdrop.show{opacity:1;pointer-events:auto}
@@ -467,7 +450,6 @@ button:focus-visible,a:focus-visible{outline-offset:2px}
    ICONS
    ============================================================ */
 const ICONS = {
-  home:'M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10',
   dashboard:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
   tasks:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
   calendar:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z',
@@ -485,21 +467,17 @@ const ICONS = {
   check:'M20 6L9 17l-5-5',
   x:'M18 6L6 18M6 6l12 12',
   menu:'M3 12h18M3 6h18M3 18h18',
-  chevronLeft:'M15 18l-6-6 6-6',
-  chevronDown:'M6 9l6 6 6-6',
   key:'M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4',
   download:'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3',
   upload:'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12',
   checkCircle:'M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3',
   playCircle:'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM10 8l6 4-6 4V8z',
-  sun:'M12 17a5 5 0 100-10 5 5 0 000 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42',
   book:'M4 19.5A2.5 2.5 0 016.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z',
   user:'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z',
   alertCircle:'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 8v4M12 16h.01',
   alertTriangle:'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01',
   trendingUp:'M23 6l-9.5 9.5-5-5L1 18M17 6h6v6',
-  inbox:'M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z',
-  database:'M21 5c0 1.66-4.03 3-9 3s-9-1.34-9-3 4.03-3 9-3 9 1.34 9 3zM3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3'
+  inbox:'M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z'
 };
 
 function ic(name, size = 20, strokeW = 2){
@@ -509,10 +487,11 @@ function ic(name, size = 20, strokeW = 2){
 }
 
 /* ============================================================
-   CONSTANTS
+   CONFIG & CONSTANTS
    ============================================================ */
-const KEY = 'libraryPremium_v3';
-const BACKUP_KEY = 'libraryPremium_v3_backup';
+const API_URL = 'https://nodejs-7ch0q6.chbkn.dev';
+const VAPID_PUBLIC_KEY = 'BMlu0Rtbjy10otKi8VJo0OdfFeSlN7I4otC2P-WbITDywxcrveKYLWWIqWAGetrfB1YymRVSigXeGa3VdUo7hYk';
+
 const SESSION_KEY = 'libraryPremiumSession';
 const SCHEMA_VERSION = 3;
 const DEFAULT_PIN_MANAGER = '0000';
@@ -556,72 +535,16 @@ function friendlyDate(d){
 }
 
 /* ============================================================
-   STATE & PWA
+   STATE
    ============================================================ */
 let state = null;
+let socket = null;
 let currentView = 'dashboard';
 let searchQuery = '';
 let modalOpen = false;
 let loginStep = 'select';
 let pendingLoginUser = null;
-let lastSavedAt = null;
-let lastLoadSource = 'fresh';
 
-const VAPID_PUBLIC_KEY = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U';
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
-async function registerServiceWorker() {
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    console.log('مرورگر از نوتیفیکیشن پشتیبانی نمی‌کند');
-    return;
-  }
-  try {
-    await navigator.serviceWorker.register('sw.js');
-    console.log('Service Worker ثبت شد');
-  } catch (error) {
-    console.error('خطا در ثبت Service Worker:', error);
-  }
-}
-
-async function requestNotificationPermission() {
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    toast('مرورگر شما از اعلان‌ها پشتیبانی نمی‌کند', true);
-    return;
-  }
-  
-  const permission = await Notification.requestPermission();
-  if (permission === 'granted') {
-    try {
-      const registration = await navigator.serviceWorker.ready;
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-      });
-      console.log('توکن Push ساخته شد:', subscription);
-      localStorage.setItem('pushSubscription', JSON.stringify(subscription));
-      toast('اعلان‌ها با موفقیت فعال شدند');
-    } catch (err) {
-      console.error('خطا در ایجاد اشتراک:', err);
-      toast('خطا در فعالسازی اعلان‌ها', true);
-    }
-  } else {
-    toast('شما اجازه اعلان‌ها را ندادید', true);
-  }
-}
-
-/* ============================================================
-   SEED & STORAGE
-   ============================================================ */
 function seed(){
   const mgrId = uid();
   const mgr = {id:mgrId, name:'مریم احمدی', role:'manager', pin:hashPin(DEFAULT_PIN_MANAGER), pinChanged:false, phone:'09121234567', position:'مدیر کتابخانه', shift:'تمام وقت', active:true};
@@ -639,32 +562,16 @@ function seed(){
     users,
     tasks:[
       {id:uid(), title:'مرتب‌سازی قفسه‌های بخش کودک', staffId:s1.id, day:'شنبه', priority:'بالا', status:'در حال انجام', notes:'', createdAt:nowISO(), createdBy:m.id},
-      {id:uid(), title:'بررسی امانت‌های سررسید گذشته', staffId:s2.id, day:'یکشنبه', priority:'بالا', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id},
-      {id:uid(), title:'ثبت کتاب‌های جدید در سامانه کشوری', staffId:s1.id, day:'دوشنبه', priority:'متوسط', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id},
-      {id:uid(), title:'آماده‌سازی سالن برای جلسه هفتگی', staffId:s2.id, day:'چهارشنبه', priority:'متوسط', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id},
-      {id:uid(), title:'نظافت و ضدعفونی سالن مطالعه', staffId:s3.id, day:'سه‌شنبه', priority:'پایین', status:'انجام شده', notes:'', createdAt:nowISO(), createdBy:m.id}
+      {id:uid(), title:'بررسی امانت‌های سررسید گذشته', staffId:s2.id, day:'یکشنبه', priority:'بالا', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id}
     ],
     events:[
-      {id:uid(), title:'جلسه هفتگی شورای کتابخانه', type:'جلسه', date:addDays(3), time:'10:00', location:'اتاق جلسات', desc:'بررسی عملکرد هفته و برنامه‌ریزی', invitedStaffIds:[], createdBy:m.id},
-      {id:uid(), title:'نشست معرفی کتاب کودک', type:'مراسم', date:addDays(9), time:'16:00', location:'سالن اصلی', desc:'با حضور نویسنده کتاب کودک', invitedStaffIds:[s4.id], createdBy:m.id}
+      {id:uid(), title:'جلسه هفتگی شورای کتابخانه', type:'جلسه', date:addDays(3), time:'10:00', location:'اتاق جلسات', desc:'بررسی عملکرد هفته و برنامه‌ریزی', invitedStaffIds:[], createdBy:m.id}
     ],
-    announcements:[
-      {id:uid(), title:'به‌روزرسانی سامانه امانت کشوری', body:'سامانه امانت‌دهی کشوری روز پنجشنبه از ساعت ۱۴ تا ۱۶ به‌روزرسانی می‌شود. لطفاً امانت‌های این بازه را مدیریت کنید.', priority:'بالا', createdAt:nowISO(), createdBy:m.id}
-    ],
+    announcements:[],
     leaveRequests:[],
     lockers: Array.from({length:12},(_,i)=>{
       const num = i+1;
-      const rented = [1,2,3,5,7,9].includes(num);
-      const names = ['زهرا محمدی','امیر حسینی','نگار صادقی','رضا اکبری','فاطمه یوسفی','محمد کاظمی'];
-      const idx = [1,2,3,5,7,9].indexOf(num);
-      return {
-        id:uid(), number:'K-'+String(num).padStart(2,'0'),
-        renter: rented ? names[idx] : '',
-        phone: rented ? '0912' + String(1000000 + num*1111) : '',
-        start: rented ? addDays(-40) : '',
-        end: rented ? addDays(20 - num) : '',
-        fee: 350000, status: rented ? 'اجاره‌ای' : 'آزاد'
-      };
+      return {id:uid(), number:'K-'+String(num).padStart(2,'0'), renter:'', phone:'', start:'', end:'', fee:350000, status:'آزاد'};
     }),
     attendance:[],
     notifications:[],
@@ -699,53 +606,55 @@ function validateState(data){
   return true;
 }
 
-function tryParseState(raw){
-  if(!raw) return null;
+/* ============================================================
+   SERVER SYNC (API & WebSocket)
+   ============================================================ */
+async function load(){
   try{
-    const data = JSON.parse(raw);
-    if(!validateState(data)) return null;
-    return data;
-  }catch(e){ return null; }
-}
-
-function load(){
-  let data = tryParseState(localStorage.getItem(KEY));
-  if(data){ lastLoadSource = 'primary'; return migrateState(data); }
-  data = tryParseState(localStorage.getItem(BACKUP_KEY));
-  if(data){ lastLoadSource = 'backup'; return migrateState(data); }
-  lastLoadSource = 'fresh';
+    const res = await fetch(`${API_URL}/api/state`);
+    const data = await res.json();
+    if(data && Object.keys(data).length > 0 && validateState(data)){
+      return migrateState(data);
+    }
+  }catch(err){ console.error('Load failed:', err); }
+  
   const s = seed();
-  localStorage.setItem(KEY, JSON.stringify(s));
-  try { localStorage.setItem(BACKUP_KEY, JSON.stringify(s)); } catch(e){}
+  await save(s);
   return s;
 }
 
-function save(){
+async function save(dataToSave){
+  const payload = dataToSave || state;
   try{
-    const json = JSON.stringify(state);
-    localStorage.setItem(KEY, json);
-    try{ localStorage.setItem(BACKUP_KEY, json); }catch(e){}
-    lastSavedAt = Date.now();
+    await fetch(`${API_URL}/api/state`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
     return {ok:true};
   }catch(err){
-    try{
-      localStorage.setItem(BACKUP_KEY, JSON.stringify(state));
-      lastSavedAt = Date.now();
-      return {ok:true, warning:'primary_failed'};
-    }catch(err2){
-      let msg = 'خطا در ذخیره‌سازی اطلاعات!';
-      if(err.name === 'QuotaExceededError'){ msg = 'فضای ذخیره‌سازی پر شده است.'; }
-      return {ok:false, message:msg};
-    }
+    console.error('Save failed:', err);
+    return {ok:false, message:'خطا در ارتباط با سرور'};
   }
 }
 
 function commit(){
-  const res = save();
-  if(!res.ok) toast(res.message, true);
+  save();
   if(!modalOpen) render();
   updateNotifBadge();
   checkNewNotifs();
+}
+
+function setupChannel(){
+  if(!window.io) return;
+  socket = io(API_URL);
+  socket.on('state-updated', (newData) => {
+    if(!validateState(newData)) return;
+    state = migrateState(newData);
+    if(!modalOpen) render();
+    updateNotifBadge();
+    checkNewNotifs();
+  });
 }
 
 /* ============================================================
@@ -777,13 +686,75 @@ function logout(){
 }
 
 /* ============================================================
-   NOTIFICATIONS
+   PWA & PUSH NOTIFICATIONS
+   ============================================================ */
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  try {
+    await navigator.serviceWorker.register('sw.js');
+  } catch (error) {
+    console.error('SW Register Error:', error);
+  }
+}
+
+async function requestNotificationPermission() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    toast('مرورگر شما از اعلان‌ها پشتیبانی نمی‌کند', true);
+    return;
+  }
+  
+  const permission = await Notification.requestPermission();
+  if (permission === 'granted') {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+      
+      const me = getCurrentUser();
+      await fetch(`${API_URL}/api/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: me.id, subscription })
+      });
+      
+      toast('اعلان‌ها با موفقیت فعال شدند');
+    } catch (err) {
+      console.error('Subscribe Error:', err);
+      toast('خطا در فعالسازی اعلان‌ها', true);
+    }
+  } else {
+    toast('شما اجازه اعلان‌ها را ندادید', true);
+  }
+}
+
+/* ============================================================
+   NOTIFICATIONS (Local)
    ============================================================ */
 function notify(userId, title, body){
   const me = getCurrentUser();
   if(me && me.id === userId) return;
+  
   state.notifications.unshift({id: uid(), userId, title, body, read:false, createdAt: nowISO()});
   if(state.notifications.length > 200) state.notifications.length = 200;
+
+  fetch(`${API_URL}/api/notify`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, title, body })
+  }).catch(e => console.error('Push notify error:', e));
 }
 
 function logActivity(type, message, userId){
@@ -803,7 +774,6 @@ function checkNewNotifs(){
   if(newest.id === lastId) return;
   sessionStorage.setItem(lastKey, newest.id);
   showFloatingNotif(newest.title, newest.body);
-  showBrowserNotif(newest.title, newest.body);
 }
 
 function showFloatingNotif(title, body){
@@ -818,18 +788,6 @@ function showFloatingNotif(title, body){
   document.body.appendChild(el);
   requestAnimationFrame(()=> el.classList.add('show'));
   setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(), 400); }, 6500);
-}
-
-function showBrowserNotif(title, body){
-  if(!('Notification' in window)) return;
-  if(Notification.permission === 'granted'){
-    try{
-      new Notification('📚 کتابخانه', {
-        body: title + '\n' + body,
-        icon: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4da.png'
-      });
-    }catch(e){}
-  }
 }
 
 function updateNotifBadge(){
@@ -873,10 +831,8 @@ function renderNotifList(){
 function markAllRead(){
   const me = getCurrentUser();
   state.notifications.forEach(n => { if(n.userId === me.id) n.read = true; });
-  save();
-  updateNotifBadge();
+  commit();
   renderNotifList();
-  toast('همه اعلان‌ها خوانده شد');
 }
 
 /* ============================================================
@@ -955,7 +911,7 @@ function confirmDel(msg, fn){
 }
 
 /* ============================================================
-   LOGIN
+   LOGIN UI
    ============================================================ */
 function renderLoginScreen(){
   const card = document.getElementById('loginCard');
@@ -979,7 +935,6 @@ function renderLoginScreen(){
       ${showDefaultHint ? `
       <div class="login-hint">
         رمز مدیر: <code>${DEFAULT_PIN_MANAGER}</code> &nbsp;•&nbsp; رمز کارکنان: <code>${DEFAULT_PIN_STAFF}</code>
-        <div style="font-size:.6875rem;color:var(--slate-400);margin-top:6px">پس از تغییر رمز توسط همه کاربران، این راهنما خودکار پنهان می‌شود</div>
       </div>` : ''}
     `;
   } else {
@@ -1011,16 +966,8 @@ function renderLoginScreen(){
     setTimeout(()=> document.getElementById('pinInput')?.focus(), 120);
   }
 }
-function pickUser(id){
-  pendingLoginUser = state.users.find(u => u.id === id);
-  loginStep = 'pin';
-  renderLoginScreen();
-}
-function backToSelect(){
-  loginStep = 'select';
-  pendingLoginUser = null;
-  renderLoginScreen();
-}
+function pickUser(id){ pendingLoginUser = state.users.find(u => u.id === id); loginStep = 'pin'; renderLoginScreen(); }
+function backToSelect(){ loginStep = 'select'; pendingLoginUser = null; renderLoginScreen(); }
 function submitPin(e){
   e.preventDefault();
   const pin = document.getElementById('pinInput').value.trim();
@@ -1061,10 +1008,7 @@ const VIEWS_STAFF = [
 const BOTTOM_MANAGER = ['dashboard','tasks','events','announcements'];
 const BOTTOM_STAFF = ['dashboard','tasks','events','announcements'];
 
-function getViews(){
-  const me = getCurrentUser();
-  return me?.role === 'manager' ? VIEWS_MANAGER : VIEWS_STAFF;
-}
+function getViews(){ const me = getCurrentUser(); return me?.role === 'manager' ? VIEWS_MANAGER : VIEWS_STAFF; }
 function getBottomItems(){
   const me = getCurrentUser();
   const ids = me?.role === 'manager' ? BOTTOM_MANAGER : BOTTOM_STAFF;
@@ -1159,9 +1103,6 @@ function showApp(){
   render();
   updateNotifBadge();
   checkNewNotifs();
-  if(lastLoadSource === 'backup'){
-    setTimeout(()=> toast('اطلاعات از نسخه پشتیبان خودکار بازیابی شد', true), 800);
-  }
 }
 
 function go(id){
@@ -2058,19 +1999,15 @@ function renderSettings(){
   </div>
 
   <div class="section">
-    <div class="section-head"><h2>وضعیت ذخیره‌سازی</h2></div>
+    <div class="section-head"><h2>وضعیت اتصال</h2></div>
     <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <span style="color:var(--slate-600);font-size:.8125rem">آخرین ذخیره</span>
-        <span style="font-weight:600;font-size:.8125rem">${lastSavedAt ? timeAgo(new Date(lastSavedAt).toISOString()) : 'در انتظار'}</span>
+        <span style="color:var(--slate-600);font-size:.8125rem">سرور</span>
+        <span style="font-weight:600;font-size:.8125rem">${API_URL}</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
         <span style="color:var(--slate-600);font-size:.8125rem">حجم داده</span>
         <span style="font-weight:600;font-size:.8125rem">${dataSize} کیلوبایت</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <span style="color:var(--slate-600);font-size:.8125rem">کاربران / وظایف / رویدادها</span>
-        <span style="font-weight:600;font-size:.8125rem">${fmtNum(state.users.length)} / ${fmtNum(state.tasks.length)} / ${fmtNum(state.events.length)}</span>
       </div>
     </div>
   </div>
@@ -2082,7 +2019,7 @@ function renderSettings(){
       ${isManager ? `<button class="btn" onclick="document.getElementById('restoreFile').click()">${ic('upload',16)} بازیابی از فایل</button>` : ''}
     </div>
     <div style="padding:0 20px 20px;color:var(--slate-500);font-size:.75rem;line-height:1.7">
-      ${ic('alertCircle',12)} اطلاعات به‌طور خودکار در مرورگر شما ذخیره می‌شود. برای انتقال بین دستگاه‌ها از فایل پشتیبان استفاده کنید.
+      ${ic('alertCircle',12)} اطلاعات به‌طور خودکار در سرور ذخیره می‌شود.
     </div>
   </div>
 
@@ -2099,12 +2036,12 @@ function renderSettings(){
 function resetAll(){
   if(!confirm('همه داده‌ها پاک شود؟')) return;
   if(!confirm('مطمئنید؟ همه کاربران، وظایف، رویدادها و کمدها حذف می‌شوند.')) return;
-  localStorage.removeItem(KEY);
-  localStorage.removeItem(BACKUP_KEY);
   sessionStorage.removeItem(SESSION_KEY);
-  state = load();
-  logout();
-  toast('همه داده‌ها بازنشانی شد');
+  state = seed();
+  save(state).then(()=>{
+    logout();
+    toast('همه داده‌ها بازنشانی شد');
+  });
 }
 
 /* ============================================================
@@ -2136,7 +2073,7 @@ function importBackup(e){
   const file = e.target.files[0];
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = ev => {
+  reader.onload = async ev => {
     let data;
     try{ data = JSON.parse(ev.target.result); }catch(err){ toast('فایل JSON معتبر نیست', true); e.target.value = ''; return; }
     if(!validateState(data)){ toast('ساختار فایل نامعتبر است', true); e.target.value = ''; return; }
@@ -2149,8 +2086,7 @@ function importBackup(e){
     try{
       const normalized = migrateState(data);
       state = normalized;
-      const res = save();
-      if(!res.ok){ toast(res.message, true); return; }
+      await save(state);
       const stillExists = getCurrentUser();
       if(!stillExists){
         toast('بازیابی انجام شد اما حساب شما در داده جدید یافت نشد. لطفاً دوباره وارد شوید.', true);
@@ -2184,16 +2120,16 @@ function handleAdd(){
 /* ============================================================
    INIT
    ============================================================ */
-function init(){
+async function init(){
   registerServiceWorker();
-  state = load();
+  state = await load();
+  setupChannel();
   const me = getCurrentUser();
   if(me){ showApp(); }
   else { renderLoginScreen(); }
 }
 
 document.addEventListener('gesturestart', e => e.preventDefault());
-window.addEventListener('beforeunload', () => { if(state) save(); });
 init();
 </script>
 </body>
