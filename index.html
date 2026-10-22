@@ -1,0 +1,2200 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5">
+<meta name="theme-color" content="#4f46e5">
+<meta name="color-scheme" content="light">
+<title>سامانه مدیریت کتابخانه</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%;color-scheme:light;-webkit-tap-highlight-color:transparent}
+body{font-family:'Vazirmatn',-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,sans-serif;font-size:.875rem;line-height:1.5;color:var(--slate-800);background:var(--slate-50);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;min-height:100vh;min-height:100dvh;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{background:none;border:none;cursor:pointer;touch-action:manipulation;color:inherit}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none;touch-action:manipulation}
+ul{list-style:none}
+[hidden]{display:none!important}
+::selection{background:var(--brand-100);color:var(--brand-700)}
+
+:root{
+  --brand-50:#eef2ff; --brand-100:#e0e7ff; --brand-200:#c7d2fe;
+  --brand-500:#6366f1; --brand-600:#4f46e5; --brand-700:#4338ca; --brand-800:#3730a3;
+  --slate-50:#f8fafc; --slate-100:#f1f5f9; --slate-200:#e2e8f0; --slate-300:#cbd5e1;
+  --slate-400:#94a3b8; --slate-500:#64748b; --slate-600:#475569; --slate-700:#334155;
+  --slate-800:#1e293b; --slate-900:#0f172a;
+  --ok-50:#ecfdf5; --ok-100:#d1fae5; --ok-500:#10b981; --ok-600:#059669; --ok-700:#047857;
+  --warn-50:#fffbeb; --warn-100:#fef3c7; --warn-500:#f59e0b; --warn-600:#d97706; --warn-700:#b45309;
+  --danger-50:#fef2f2; --danger-100:#fee2e2; --danger-500:#ef4444; --danger-600:#dc2626; --danger-700:#b91c1c;
+  --info-50:#eff6ff; --info-100:#dbeafe; --info-500:#3b82f6; --info-600:#2563eb; --info-700:#1d4ed8;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-2xl:24px; --r-full:999px;
+  --sh-xs:0 1px 2px 0 rgba(15,23,42,.05);
+  --sh-sm:0 1px 3px 0 rgba(15,23,42,.08),0 1px 2px -1px rgba(15,23,42,.04);
+  --sh-md:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.04);
+  --sh-lg:0 10px 15px -3px rgba(15,23,42,.08),0 4px 6px -4px rgba(15,23,42,.03);
+  --sh-xl:0 20px 25px -5px rgba(15,23,42,.1),0 8px 10px -6px rgba(15,23,42,.04);
+  --sh-2xl:0 25px 50px -12px rgba(15,23,42,.25);
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-bounce:cubic-bezier(.34,1.56,.64,1);
+  --sidebar-w:264px; --header-h:64px; --nav-h:64px;
+}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;min-height:40px;border-radius:var(--r-md);font-weight:600;font-size:.875rem;border:1px solid var(--slate-200);background:#fff;color:var(--slate-700);transition:all .15s var(--ease);white-space:nowrap}
+.btn:hover{background:var(--slate-50);border-color:var(--slate-300)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--brand-500),var(--brand-600));border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.35)}
+.btn-primary:hover{background:linear-gradient(135deg,var(--brand-600),var(--brand-700));box-shadow:0 6px 20px rgba(99,102,241,.45)}
+.btn-ghost{border-color:transparent;background:transparent}
+.btn-ghost:hover{background:var(--slate-100)}
+.btn-danger{color:var(--danger-600);border-color:var(--danger-200)}
+.btn-danger:hover{background:var(--danger-50)}
+.btn-sm{padding:6px 12px;min-height:32px;font-size:.8125rem}
+
+.icon-btn{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:var(--r-md);background:transparent;color:var(--slate-600);transition:all .15s var(--ease);position:relative}
+.icon-btn:hover{background:var(--slate-100);color:var(--slate-800)}
+.icon-btn:active{transform:scale(.92)}
+
+.icon-action{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:var(--r-sm);background:var(--slate-100);color:var(--slate-600);transition:all .15s var(--ease)}
+.icon-action:hover{background:var(--slate-200);color:var(--slate-800)}
+.icon-action.danger:hover{background:var(--danger-50);color:var(--danger-600)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-full);font-size:.75rem;font-weight:600;line-height:1.4;white-space:nowrap}
+.badge-ok{background:var(--ok-100);color:var(--ok-700)}
+.badge-warn{background:var(--warn-100);color:var(--warn-700)}
+.badge-danger{background:var(--danger-100);color:var(--danger-700)}
+.badge-info{background:var(--info-100);color:var(--info-700)}
+.badge-brand{background:var(--brand-100);color:var(--brand-700)}
+.badge-muted{background:var(--slate-100);color:var(--slate-600)}
+
+.avatar{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--brand-100),var(--brand-200));color:var(--brand-700);font-size:1.1rem;font-weight:700;flex-shrink:0}
+.avatar-sm{width:32px;height:32px;font-size:.9rem}
+.avatar-lg{width:64px;height:64px;font-size:1.6rem}
+
+.login-screen{position:fixed;inset:0;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#ec4899 100%);overflow-y:auto;z-index:1}
+.login-screen::before,.login-screen::after{content:'';position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.15) 0%,transparent 70%)}
+.login-screen::before{width:600px;height:600px;top:-200px;right:-150px}
+.login-screen::after{width:500px;height:500px;bottom:-150px;left:-120px}
+
+.login-card{background:#fff;border-radius:var(--r-2xl);padding:40px 32px;max-width:800px;width:100%;box-shadow:0 40px 100px rgba(0,0,0,.35);position:relative;z-index:2;animation:slideUp .5s var(--ease-out)}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+.login-logo{width:72px;height:72px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand-500),var(--brand-600));color:#fff;margin:0 auto 20px;box-shadow:0 12px 32px rgba(99,102,241,.4)}
+.login-card h1{text-align:center;font-size:1.5rem;font-weight:800;color:var(--slate-900);margin-bottom:8px;letter-spacing:-.02em}
+.login-sub{text-align:center;color:var(--slate-500);margin-bottom:28px;font-size:.875rem}
+
+.user-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.user-card{background:var(--slate-50);border:2px solid transparent;border-radius:var(--r-md);padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s var(--ease);display:flex;flex-direction:column;align-items:center;gap:10px;min-height:44px}
+.user-card:hover{border-color:var(--brand-500);background:#fff;transform:translateY(-3px);box-shadow:0 12px 28px rgba(99,102,241,.18)}
+.user-card:active{transform:scale(.97)}
+.user-card .av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.4rem;background:linear-gradient(135deg,var(--brand-100),var(--brand-200));color:var(--brand-700)}
+.user-card b{font-size:.875rem;color:var(--slate-800)}
+.user-card small{color:var(--slate-500);font-size:.75rem}
+
+.login-hint{text-align:center;color:var(--slate-500);font-size:.8125rem;padding:14px;background:var(--slate-50);border-radius:var(--r-md);line-height:2}
+.login-hint code{background:#fff;padding:2px 8px;border-radius:6px;color:var(--brand-600);font-family:inherit;font-weight:700;border:1px solid var(--slate-200)}
+
+.pin-box{text-align:center}
+.pin-user{display:inline-flex;align-items:center;gap:12px;padding:14px 24px;background:var(--slate-50);border-radius:var(--r-md);margin-bottom:24px}
+.pin-input-wrap{display:flex;justify-content:center;margin:24px 0}
+.pin-input{width:220px;padding:16px 20px;border:2px solid var(--slate-200);border-radius:var(--r-md);font-family:inherit;font-size:1.5rem;text-align:center;letter-spacing:12px;outline:none;transition:all .2s var(--ease);font-weight:700;background:#fff;color:var(--slate-800)}
+.pin-input:focus{border-color:var(--brand-500);box-shadow:0 0 0 4px rgba(99,102,241,.15)}
+.pin-actions{display:flex;gap:10px;justify-content:center}
+.pin-error{color:var(--danger-600);font-size:.8125rem;margin:12px 0;font-weight:600;padding:10px;background:var(--danger-50);border-radius:var(--r-sm)}
+
+.app{min-height:100vh;min-height:100dvh}
+.sidebar{position:fixed;top:0;right:0;bottom:0;width:var(--sidebar-w);background:#0f172a;color:var(--slate-300);display:flex;flex-direction:column;padding:20px 14px;z-index:30;overflow-y:auto}
+.sidebar .brand{display:flex;align-items:center;gap:12px;padding:0 8px 20px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:16px}
+.sidebar .brand-logo{width:40px;height:40px;border-radius:var(--r-md);display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,var(--brand-500),var(--brand-600));box-shadow:0 6px 16px rgba(99,102,241,.4);color:#fff}
+.sidebar .brand-txt b{display:block;color:#fff;font-size:.9375rem;font-weight:700}
+.sidebar .brand-txt small{color:var(--slate-400);font-size:.6875rem}
+
+.nav{display:flex;flex-direction:column;gap:4px;flex:1;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;min-height:44px;color:var(--slate-300);border-radius:var(--r-md);font-size:.875rem;font-weight:500;text-align:right;width:100%;transition:all .15s var(--ease);position:relative}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:linear-gradient(135deg,var(--brand-500),var(--brand-600));color:#fff;box-shadow:0 6px 16px rgba(99,102,241,.35)}
+.nav-item .ic{flex-shrink:0;opacity:.9}
+.nav-item .label{flex:1;text-align:right}
+.nav-item .count{background:rgba(255,255,255,.15);color:#fff;padding:1px 8px;border-radius:var(--r-full);font-size:.6875rem;font-weight:700}
+.nav-item.active .count{background:rgba(0,0,0,.25)}
+
+.sidebar-footer{border-top:1px solid rgba(255,255,255,.08);padding-top:14px;margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.sidebar-footer button{display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--slate-300);border-radius:var(--r-sm);font-size:.8125rem;font-weight:500;transition:all .15s var(--ease);text-align:right}
+.sidebar-footer button:hover{background:rgba(255,255,255,.1);color:#fff}
+
+.main{min-height:100vh;min-height:100dvh;margin-right:var(--sidebar-w);padding:24px 28px 100px}
+.main-content{max-width:1320px;margin:0 auto}
+
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.page-header h1{font-size:1.5rem;font-weight:800;color:var(--slate-900);letter-spacing:-.02em;line-height:1.2}
+.page-sub{color:var(--slate-500);font-size:.8125rem;margin-top:4px}
+.page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:relative}
+.user-pill{display:flex;align-items:center;gap:10px;padding:4px 14px 4px 4px;background:#fff;border:1px solid var(--slate-200);border-radius:var(--r-full);transition:all .15s var(--ease)}
+.user-pill:hover{box-shadow:var(--sh-sm);border-color:var(--slate-300)}
+.user-pill .info{line-height:1.2}
+.user-pill .info b{display:block;font-size:.8125rem;color:var(--slate-800)}
+.user-pill .info small{color:var(--slate-500);font-size:.6875rem}
+
+.mobile-header{display:none;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--slate-200);padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 10px;align-items:center;justify-content:space-between;gap:8px;min-height:var(--header-h)}
+.mobile-brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.9375rem;color:var(--slate-900)}
+.mobile-brand .logo{width:32px;height:32px;border-radius:var(--r-sm);display:grid;place-items:center;background:linear-gradient(135deg,var(--brand-500),var(--brand-600));color:#fff}
+
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:25;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--slate-200);padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+.bottom-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;padding:6px 4px;min-height:52px;border-radius:var(--r-sm);color:var(--slate-500);font-size:.6875rem;font-weight:600;transition:all .15s var(--ease);position:relative}
+.bottom-nav-item.active{color:var(--brand-600)}
+.bottom-nav-item .ic{transition:transform .15s var(--ease)}
+.bottom-nav-item.active .ic{transform:scale(1.1)}
+.bottom-nav-item .count{position:absolute;top:2px;left:50%;margin-left:8px;min-width:16px;height:16px;padding:0 4px;background:var(--danger-500);color:#fff;border-radius:var(--r-full);font-size:.625rem;font-weight:700;display:grid;place-items:center}
+
+.fab{display:none;position:fixed;bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom,0px));left:20px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--brand-500),var(--brand-600));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,.5),0 2px 8px rgba(99,102,241,.3);z-index:24;transition:all .2s var(--ease-bounce);display:grid;place-items:center}
+.fab:active{transform:scale(.9)}
+.fab:hover{box-shadow:0 12px 32px rgba(99,102,241,.6)}
+
+.drawer{position:fixed;inset:0;z-index:100;pointer-events:none}
+.drawer-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.5);opacity:0;transition:opacity .25s var(--ease);backdrop-filter:blur(2px)}
+.drawer-panel{position:absolute;top:0;right:0;bottom:0;width:min(320px,85vw);background:#fff;transform:translateX(100%);transition:transform .3s var(--ease-out);display:flex;flex-direction:column;box-shadow:-20px 0 50px rgba(0,0,0,.2)}
+.drawer.open{pointer-events:auto}
+.drawer.open .drawer-backdrop{opacity:1}
+.drawer.open .drawer-panel{transform:none}
+.drawer-header{padding:20px;border-bottom:1px solid var(--slate-200);display:flex;align-items:center;gap:12px}
+.drawer-nav{padding:12px;overflow-y:auto;flex:1}
+.drawer-footer{padding:12px;border-top:1px solid var(--slate-200)}
+
+.notif-panel{position:fixed;inset:0;z-index:100;pointer-events:none}
+.notif-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.5);opacity:0;transition:opacity .25s var(--ease);backdrop-filter:blur(2px)}
+.notif-sheet{position:absolute;top:0;right:0;bottom:0;width:min(400px,92vw);background:#fff;transform:translateX(100%);transition:transform .3s var(--ease-out);display:flex;flex-direction:column;box-shadow:-20px 0 50px rgba(0,0,0,.2)}
+.notif-panel.open{pointer-events:auto}
+.notif-panel.open .notif-backdrop{opacity:1}
+.notif-panel.open .notif-sheet{transform:none}
+.notif-sheet-head{padding:20px;border-bottom:1px solid var(--slate-200);display:flex;justify-content:space-between;align-items:center}
+.notif-sheet-head h3{font-size:1rem;font-weight:700}
+.notif-sheet-list{flex:1;overflow-y:auto}
+.notif-empty{padding:60px 20px;text-align:center;color:var(--slate-500);font-size:.875rem}
+.notif-item{padding:14px 20px;border-bottom:1px solid var(--slate-100);transition:background .15s var(--ease);display:flex;gap:12px;cursor:pointer}
+.notif-item:hover{background:var(--slate-50)}
+.notif-item.unread{background:var(--brand-50)}
+.notif-item.unread:hover{background:var(--brand-100)}
+.notif-item .dot{width:8px;height:8px;border-radius:50%;background:var(--brand-500);flex-shrink:0;margin-top:8px}
+.notif-item .body{flex:1}
+.notif-item .body b{font-size:.875rem;display:block;margin-bottom:3px;color:var(--slate-800)}
+.notif-item .body p{font-size:.8125rem;color:var(--slate-600);line-height:1.5}
+.notif-item .body time{font-size:.75rem;color:var(--slate-400);display:block;margin-top:4px}
+
+.notif-badge{position:absolute;top:4px;left:4px;min-width:18px;height:18px;padding:0 5px;background:var(--danger-500);color:#fff;border-radius:var(--r-full);font-size:.6875rem;font-weight:700;display:grid;place-items:center;border:2px solid #fff}
+
+.section{background:#fff;border:1px solid var(--slate-200);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;box-shadow:var(--sh-xs)}
+.section-head{padding:16px 20px;border-bottom:1px solid var(--slate-200);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.section-head h2{font-size:.9375rem;font-weight:700;color:var(--slate-900)}
+.section-head .sub{color:var(--slate-500);font-size:.8125rem;font-weight:500}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:#fff;border:1px solid var(--slate-200);border-radius:var(--r-lg);padding:18px;position:relative;overflow:hidden;transition:all .2s var(--ease)}
+.stat:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:var(--slate-300)}
+.stat .accent{position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px}
+.stat .ic-wrap{width:38px;height:38px;border-radius:var(--r-md);display:grid;place-items:center;margin-bottom:12px}
+.stat .lbl{color:var(--slate-500);font-size:.8125rem;font-weight:500;margin-bottom:6px}
+.stat .val{font-size:1.75rem;font-weight:800;color:var(--slate-900);letter-spacing:-.03em;line-height:1}
+.stat .hint{color:var(--slate-400);font-size:.75rem;margin-top:8px}
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.data-table{width:100%;border-collapse:collapse;font-size:.8125rem}
+.data-table th{text-align:right;padding:12px 16px;background:var(--slate-50);color:var(--slate-500);font-weight:600;font-size:.75rem;white-space:nowrap;border-bottom:1px solid var(--slate-200)}
+.data-table td{padding:14px 16px;border-bottom:1px solid var(--slate-100);vertical-align:middle;color:var(--slate-700)}
+.data-table tbody tr:last-child td{border-bottom:none}
+.data-table tbody tr{transition:background .15s var(--ease)}
+.data-table tbody tr:hover{background:var(--slate-50)}
+.data-table .actions-cell{text-align:left;white-space:nowrap}
+
+.empty-state{padding:56px 20px;text-align:center;color:var(--slate-500)}
+.empty-state .ic-big{width:64px;height:64px;border-radius:50%;background:var(--slate-100);display:grid;place-items:center;margin:0 auto 16px;color:var(--slate-400)}
+.empty-state b{display:block;color:var(--slate-700);font-size:.9375rem;margin-bottom:6px}
+.empty-state p{font-size:.8125rem;line-height:1.6}
+
+.search-input{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--slate-50);border:1px solid var(--slate-200);border-radius:var(--r-md);transition:all .15s var(--ease);min-width:200px}
+.search-input:focus-within{background:#fff;border-color:var(--brand-500);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.search-input input{border:none;background:none;outline:none;flex:1;font-size:.8125rem;color:var(--slate-800);padding:0;min-width:0}
+.search-input input::placeholder{color:var(--slate-400)}
+.search-input .ic{color:var(--slate-400);flex-shrink:0}
+
+.bar-chart{padding:20px;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:flex;align-items:center;gap:12px;font-size:.8125rem}
+.bar-row .nm{width:110px;color:var(--slate-600);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .track{flex:1;height:8px;background:var(--slate-100);border-radius:var(--r-full);overflow:hidden}
+.bar-row .fill{height:100%;border-radius:var(--r-full);background:linear-gradient(90deg,var(--brand-500),var(--brand-600));transition:width .6s var(--ease-out)}
+.bar-row .vl{width:52px;text-align:left;font-weight:700;font-size:.75rem;color:var(--slate-700)}
+
+.activity-item{display:flex;gap:12px;padding:13px 20px;border-bottom:1px solid var(--slate-100)}
+.activity-item:last-child{border-bottom:none}
+.activity-item .body{flex:1;min-width:0}
+.activity-item .body p{font-size:.8125rem;color:var(--slate-700);line-height:1.5}
+.activity-item .body time{font-size:.75rem;color:var(--slate-400);display:block;margin-top:3px}
+
+.att-hero{background:linear-gradient(135deg,var(--brand-500) 0%,#8b5cf6 100%);color:#fff;border-radius:var(--r-xl);padding:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;box-shadow:0 16px 40px rgba(99,102,241,.35);position:relative;overflow:hidden}
+.att-hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.1);top:-100px;left:-100px}
+.att-hero .time{font-size:2rem;font-weight:800;letter-spacing:-.02em;position:relative;z-index:1}
+.att-hero .date{opacity:.85;font-size:.875rem;margin-top:4px;position:relative;z-index:1}
+.att-hero .actions-wrap{position:relative;z-index:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.att-status{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);padding:10px 16px;border-radius:var(--r-md);font-size:.8125rem;font-weight:500;backdrop-filter:blur(10px)}
+.att-btn{background:#fff;color:var(--brand-600);border:none;padding:12px 24px;border-radius:var(--r-md);font-weight:700;font-size:.875rem;box-shadow:0 8px 24px rgba(0,0,0,.15);transition:all .15s var(--ease);display:flex;align-items:center;gap:8px}
+.att-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.att-btn.checkout{background:var(--warn-500);color:#fff}
+
+.ann-card{padding:16px 20px;border-bottom:1px solid var(--slate-100)}
+.ann-card:last-child{border-bottom:none}
+.ann-card-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.ann-card-head b{font-size:.9375rem;color:var(--slate-900)}
+.ann-card p{font-size:.8125rem;color:var(--slate-600);line-height:1.7}
+.ann-card .meta{color:var(--slate-400);font-size:.75rem;margin-top:8px;display:flex;align-items:center;gap:6px}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.default-pin-banner{
+  background:linear-gradient(135deg,var(--warn-500),var(--warn-600));color:#fff;
+  border-radius:var(--r-lg);padding:14px 18px;margin-bottom:18px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  box-shadow:0 8px 24px rgba(245,158,11,.35);
+}
+.default-pin-banner .txt{flex:1;min-width:0}
+.default-pin-banner b{display:block;font-size:.875rem;margin-bottom:2px}
+.default-pin-banner p{font-size:.8125rem;opacity:.92}
+.default-pin-banner button{
+  background:#fff;color:var(--warn-700);border:none;font-weight:700;
+  padding:8px 16px;border-radius:var(--r-md);font-size:.8125rem;white-space:nowrap;
+  transition:all .15s var(--ease);
+}
+.default-pin-banner button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+
+.notif-banner {
+  background: linear-gradient(135deg, #8b5cf6, var(--brand-600)); color: white; 
+  padding: 16px; border-radius: var(--r-md); margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  box-shadow: 0 8px 24px rgba(99,102,241,0.35); flex-wrap: wrap;
+}
+.notif-banner button {
+  background: white; color: var(--brand-600); border: none;
+  padding: 8px 16px; border-radius: var(--r-sm); font-weight: bold; cursor: pointer;
+  transition: all .15s;
+}
+.notif-banner button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+.backdrop{position:fixed;inset:0;z-index:100;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
+.backdrop.show{opacity:1;pointer-events:auto}
+.modal{background:#fff;border-radius:var(--r-xl);width:100%;max-width:600px;max-height:90vh;max-height:90dvh;overflow-y:auto;padding:24px;transform:translateY(20px) scale(.96);opacity:0;transition:transform .3s var(--ease-out),opacity .2s var(--ease);box-shadow:var(--sh-2xl)}
+.backdrop.show .modal{transform:none;opacity:1}
+.modal h3{font-size:1.0625rem;font-weight:700;color:var(--slate-900);padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--slate-200)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:.75rem;color:var(--slate-600);font-weight:600}
+.field input,.field select,.field textarea{padding:11px 14px;min-height:44px;border:1px solid var(--slate-200);border-radius:var(--r-md);font-size:.875rem;background:#fff;color:var(--slate-800);outline:none;transition:all .15s var(--ease);font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand-500);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.field textarea{resize:vertical;min-height:80px;line-height:1.5}
+.modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--slate-200)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);padding:13px 22px;background:var(--slate-900);color:#fff;border-radius:var(--r-md);font-size:.8125rem;font-weight:500;box-shadow:var(--sh-2xl);z-index:200;opacity:0;transition:all .3s var(--ease-out);display:flex;align-items:center;gap:10px;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.error{background:var(--danger-600)}
+
+.floating-notif{position:fixed;top:calc(env(safe-area-inset-top,0px) + 20px);right:20px;background:#fff;border-radius:var(--r-md);padding:14px 18px;box-shadow:var(--sh-2xl);border:1px solid var(--slate-200);z-index:250;display:flex;gap:12px;align-items:flex-start;max-width:360px;transform:translateX(calc(100% + 40px));transition:transform .35s var(--ease-bounce)}
+.floating-notif.show{transform:none}
+.floating-notif .ic{width:38px;height:38px;border-radius:var(--r-md);flex-shrink:0;background:linear-gradient(135deg,var(--brand-100),var(--brand-200));color:var(--brand-600);display:grid;place-items:center}
+.floating-notif b{font-size:.875rem;display:block;margin-bottom:3px;color:var(--slate-900)}
+.floating-notif p{font-size:.8125rem;color:var(--slate-600);line-height:1.5}
+.floating-notif .close{background:none;color:var(--slate-400);font-size:1rem;padding:0;line-height:1}
+
+@media (max-width:1023px){
+  .sidebar{display:none}
+  .mobile-header{display:flex}
+  .bottom-nav{display:flex}
+  .main{margin-right:0;padding:20px 16px 120px}
+  .page-header{margin-bottom:16px}
+  .page-header h1{font-size:1.25rem}
+  .page-actions .user-pill .info{display:none}
+  .page-actions .user-pill{padding:4px}
+  .page-actions .btn-primary{display:none}
+  .fab{display:grid}
+  .two-col{grid-template-columns:1fr}
+  .modal{position:fixed;bottom:0;left:0;right:0;top:auto;border-radius:var(--r-2xl) var(--r-2xl) 0 0;max-height:92dvh;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(100%)}
+  .backdrop{align-items:flex-end;padding:0}
+  .backdrop.show .modal{transform:translateY(0)}
+  .modal::before{content:'';display:block;width:40px;height:4px;background:var(--slate-300);border-radius:2px;margin:-8px auto 16px}
+  .form-grid{grid-template-columns:1fr}
+  .att-hero{padding:20px}
+  .att-hero .time{font-size:1.625rem}
+  .data-table thead{display:none}
+  .data-table,.data-table tbody,.data-table tr,.data-table td{display:block;width:100%}
+  .data-table tr{border:1px solid var(--slate-200);border-radius:var(--r-md);padding:12px 14px;margin-bottom:10px;background:#fff}
+  .data-table tr:hover{background:#fff}
+  .data-table td{padding:6px 0;border:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:32px}
+  .data-table td[data-label]:not([data-label=""])::before{content:attr(data-label);color:var(--slate-500);font-size:.75rem;font-weight:500;flex-shrink:0}
+  .data-table td.actions-cell{justify-content:flex-end;padding-top:10px;margin-top:6px;border-top:1px solid var(--slate-100)}
+  .table-wrap{overflow:visible}
+  .section-head .search-input{width:100%;min-width:0}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .stat{padding:14px}
+  .stat .val{font-size:1.5rem}
+  .stat .ic-wrap{width:32px;height:32px;margin-bottom:10px}
+}
+
+@media (max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .login-card{padding:28px 20px;border-radius:var(--r-xl)}
+  .login-logo{width:60px;height:60px}
+  .login-card h1{font-size:1.25rem}
+  .user-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .user-card{padding:14px 8px}
+  .user-card .av{width:44px;height:44px;font-size:1.15rem}
+  .user-card b{font-size:.8125rem}
+  .user-card small{font-size:.6875rem}
+}
+
+:focus-visible{outline:2px solid var(--brand-500);outline-offset:2px;border-radius:4px}
+button:focus-visible,a:focus-visible{outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card" id="loginCard"></div>
+</div>
+
+<div id="app" class="app" hidden>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo" id="brandLogo"></div>
+      <div class="brand-txt">
+        <b>مدیریت کتابخانه</b>
+        <small id="brandSub">دستیار مدیر</small>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="sidebar-footer">
+      <button onclick="exportBackup()" id="btnExport"></button>
+      <button onclick="document.getElementById('restoreFile').click()" id="btnRestore"></button>
+      <input type="file" id="restoreFile" accept=".json" hidden onchange="importBackup(event)">
+    </div>
+  </aside>
+
+  <header class="mobile-header">
+    <button class="icon-btn" onclick="toggleDrawer(true)" aria-label="منو" id="menuBtn"></button>
+    <div class="mobile-brand">
+      <div class="logo" id="mobileLogo"></div>
+      <span>کتابخانه</span>
+    </div>
+    <button class="icon-btn" onclick="toggleNotif(true)" aria-label="اعلان‌ها" style="position:relative">
+      <span id="bellMobile"></span>
+      <span class="notif-badge" id="notifBadgeMobile" hidden></span>
+    </button>
+  </header>
+
+  <main class="main">
+    <div class="main-content">
+      <div class="page-header">
+        <div>
+          <h1 id="pageTitle">داشبورد</h1>
+          <p class="page-sub" id="pageSub"></p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-primary" id="addBtn" onclick="handleAdd()" hidden>
+            <span id="addBtnIc"></span> افزودن
+          </button>
+          <button class="icon-btn" onclick="toggleNotif(true)" aria-label="اعلان‌ها" style="position:relative" id="bellDesktopBtn">
+            <span id="bellDesktop"></span>
+            <span class="notif-badge" id="notifBadge" hidden></span>
+          </button>
+          <div class="user-pill" id="userPill"></div>
+          <button class="icon-btn" onclick="logout()" title="خروج" id="logoutBtn"></button>
+        </div>
+      </div>
+      <div id="view"></div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav"></nav>
+  <button class="fab" id="fab" onclick="handleAdd()" aria-label="افزودن"></button>
+</div>
+
+<div id="drawer" class="drawer">
+  <div class="drawer-backdrop" onclick="toggleDrawer(false)"></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <div class="avatar" id="drawerAvatar"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:.875rem;color:var(--slate-900)" id="drawerName"></div>
+        <div style="color:var(--slate-500);font-size:.75rem" id="drawerRole"></div>
+      </div>
+      <button class="icon-btn" onclick="toggleDrawer(false)" aria-label="بستن" id="drawerClose"></button>
+    </div>
+    <nav class="drawer-nav" id="drawerNav"></nav>
+    <div class="drawer-footer">
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start;color:var(--danger-600)" onclick="logout()">
+        <span id="drawerLogoutIc"></span> خروج از حساب
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="notifPanel" class="notif-panel">
+  <div class="notif-backdrop" onclick="toggleNotif(false)"></div>
+  <div class="notif-sheet">
+    <div class="notif-sheet-head">
+      <h3>اعلان‌ها</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-sm btn-ghost" onclick="markAllRead()">خواندن همه</button>
+        <button class="icon-btn" onclick="toggleNotif(false)" aria-label="بستن" id="notifClose"></button>
+      </div>
+    </div>
+    <div class="notif-sheet-list" id="notifList"></div>
+  </div>
+</div>
+
+<div id="backdrop" class="backdrop">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <form id="modalForm" novalidate></form>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* ============================================================
+   ICONS
+   ============================================================ */
+const ICONS = {
+  home:'M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10',
+  dashboard:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
+  tasks:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
+  calendar:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z',
+  bell:'M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0',
+  users:'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75',
+  lock:'M7 11V7a5 5 0 0110 0v4M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z',
+  megaphone:'M3 11v2a2 2 0 002 2h2l4 4V5L7 9H5a2 2 0 00-2 2zM15 9a6 6 0 010 6M19 5a12 12 0 010 14',
+  clock:'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 6v6l4 2',
+  settings:'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z',
+  logout:'M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9',
+  plus:'M12 5v14M5 12h14',
+  search:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35',
+  edit:'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z',
+  trash:'M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2',
+  check:'M20 6L9 17l-5-5',
+  x:'M18 6L6 18M6 6l12 12',
+  menu:'M3 12h18M3 6h18M3 18h18',
+  chevronLeft:'M15 18l-6-6 6-6',
+  chevronDown:'M6 9l6 6 6-6',
+  key:'M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4',
+  download:'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3',
+  upload:'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12',
+  checkCircle:'M22 11.08V12a10 10 0 11-5.93-9.14M22 4L12 14.01l-3-3',
+  playCircle:'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM10 8l6 4-6 4V8z',
+  sun:'M12 17a5 5 0 100-10 5 5 0 000 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42',
+  book:'M4 19.5A2.5 2.5 0 016.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z',
+  user:'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z',
+  alertCircle:'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 8v4M12 16h.01',
+  alertTriangle:'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01',
+  trendingUp:'M23 6l-9.5 9.5-5-5L1 18M17 6h6v6',
+  inbox:'M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z',
+  database:'M21 5c0 1.66-4.03 3-9 3s-9-1.34-9-3 4.03-3 9-3 9 1.34 9 3zM3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3'
+};
+
+function ic(name, size = 20, strokeW = 2){
+  const p = ICONS[name] || '';
+  if(!p) return '';
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${strokeW}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${p}"/></svg>`;
+}
+
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY = 'libraryPremium_v3';
+const BACKUP_KEY = 'libraryPremium_v3_backup';
+const SESSION_KEY = 'libraryPremiumSession';
+const SCHEMA_VERSION = 3;
+const DEFAULT_PIN_MANAGER = '0000';
+const DEFAULT_PIN_STAFF = '1234';
+
+const DAYS = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+const PRIORITIES = ['بالا','متوسط','پایین'];
+const TASK_STATUS = ['در انتظار','در حال انجام','انجام شده'];
+const EVENT_TYPES = ['جلسه','مراسم','کارگاه','نمایشگاه'];
+const SHIFTS = ['صبح (۸-۱۴)','عصر (۱۴-۲۰)','شب (۲۰-۲۴)','تمام وقت'];
+
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const today = () => new Date().toISOString().slice(0,10);
+const nowISO = () => new Date().toISOString();
+const faDate = d => d ? new Date(d+'T00:00:00').toLocaleDateString('fa-IR') : '--';
+const daysBetween = (a,b) => Math.round((new Date(b)-new Date(a))/86400000);
+const hashPin = p => { let h=0; for(let i=0;i<p.length;i++) h=((h<<5)-h+p.charCodeAt(i))|0; return h.toString(36); };
+const fmtNum = n => Number(n).toLocaleString('fa-IR');
+const fmtTime = iso => new Date(iso).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+const fmtDate = iso => new Date(iso).toLocaleDateString('fa-IR');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const addDays = n => { const d = new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+
+function timeAgo(iso){
+  const s = Math.floor((Date.now() - new Date(iso))/1000);
+  if(s < 30) return 'لحظاتی پیش';
+  if(s < 60) return s + ' ثانیه پیش';
+  if(s < 3600) return Math.floor(s/60) + ' دقیقه پیش';
+  if(s < 86400) return Math.floor(s/3600) + ' ساعت پیش';
+  if(s < 604800) return Math.floor(s/86400) + ' روز پیش';
+  return fmtDate(iso);
+}
+function friendlyDate(d){
+  const t = today();
+  const tom = addDays(1);
+  const yes = addDays(-1);
+  if(d === t) return 'امروز';
+  if(d === tom) return 'فردا';
+  if(d === yes) return 'دیروز';
+  return faDate(d);
+}
+
+/* ============================================================
+   STATE & PWA
+   ============================================================ */
+let state = null;
+let currentView = 'dashboard';
+let searchQuery = '';
+let modalOpen = false;
+let loginStep = 'select';
+let pendingLoginUser = null;
+let lastSavedAt = null;
+let lastLoadSource = 'fresh';
+
+const VAPID_PUBLIC_KEY = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U';
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    console.log('مرورگر از نوتیفیکیشن پشتیبانی نمی‌کند');
+    return;
+  }
+  try {
+    await navigator.serviceWorker.register('sw.js');
+    console.log('Service Worker ثبت شد');
+  } catch (error) {
+    console.error('خطا در ثبت Service Worker:', error);
+  }
+}
+
+async function requestNotificationPermission() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    toast('مرورگر شما از اعلان‌ها پشتیبانی نمی‌کند', true);
+    return;
+  }
+  
+  const permission = await Notification.requestPermission();
+  if (permission === 'granted') {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+      console.log('توکن Push ساخته شد:', subscription);
+      localStorage.setItem('pushSubscription', JSON.stringify(subscription));
+      toast('اعلان‌ها با موفقیت فعال شدند');
+    } catch (err) {
+      console.error('خطا در ایجاد اشتراک:', err);
+      toast('خطا در فعالسازی اعلان‌ها', true);
+    }
+  } else {
+    toast('شما اجازه اعلان‌ها را ندادید', true);
+  }
+}
+
+/* ============================================================
+   SEED & STORAGE
+   ============================================================ */
+function seed(){
+  const mgrId = uid();
+  const mgr = {id:mgrId, name:'مریم احمدی', role:'manager', pin:hashPin(DEFAULT_PIN_MANAGER), pinChanged:false, phone:'09121234567', position:'مدیر کتابخانه', shift:'تمام وقت', active:true};
+  const staff = [
+    {id:uid(), name:'علی رضایی', role:'staff', pin:hashPin(DEFAULT_PIN_STAFF), pinChanged:false, phone:'09127654321', position:'کتابدار', shift:'عصر (۱۴-۲۰)', active:true},
+    {id:uid(), name:'سارا کریمی', role:'staff', pin:hashPin(DEFAULT_PIN_STAFF), pinChanged:false, phone:'09123334455', position:'مسئول سالن', shift:'صبح (۸-۱۴)', active:true},
+    {id:uid(), name:'حسین نوری', role:'staff', pin:hashPin(DEFAULT_PIN_STAFF), pinChanged:false, phone:'09199887766', position:'خدمات و پشتیبانی', shift:'عصر (۱۴-۲۰)', active:true},
+    {id:uid(), name:'نگار صادقی', role:'staff', pin:hashPin(DEFAULT_PIN_STAFF), pinChanged:false, phone:'09137778899', position:'کتابدار کودک', shift:'صبح (۸-۱۴)', active:true}
+  ];
+  const users = [mgr, ...staff];
+  const [m,s1,s2,s3,s4] = users;
+  return {
+    _schemaVersion: SCHEMA_VERSION,
+    _createdAt: nowISO(),
+    users,
+    tasks:[
+      {id:uid(), title:'مرتب‌سازی قفسه‌های بخش کودک', staffId:s1.id, day:'شنبه', priority:'بالا', status:'در حال انجام', notes:'', createdAt:nowISO(), createdBy:m.id},
+      {id:uid(), title:'بررسی امانت‌های سررسید گذشته', staffId:s2.id, day:'یکشنبه', priority:'بالا', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id},
+      {id:uid(), title:'ثبت کتاب‌های جدید در سامانه کشوری', staffId:s1.id, day:'دوشنبه', priority:'متوسط', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id},
+      {id:uid(), title:'آماده‌سازی سالن برای جلسه هفتگی', staffId:s2.id, day:'چهارشنبه', priority:'متوسط', status:'در انتظار', notes:'', createdAt:nowISO(), createdBy:m.id},
+      {id:uid(), title:'نظافت و ضدعفونی سالن مطالعه', staffId:s3.id, day:'سه‌شنبه', priority:'پایین', status:'انجام شده', notes:'', createdAt:nowISO(), createdBy:m.id}
+    ],
+    events:[
+      {id:uid(), title:'جلسه هفتگی شورای کتابخانه', type:'جلسه', date:addDays(3), time:'10:00', location:'اتاق جلسات', desc:'بررسی عملکرد هفته و برنامه‌ریزی', invitedStaffIds:[], createdBy:m.id},
+      {id:uid(), title:'نشست معرفی کتاب کودک', type:'مراسم', date:addDays(9), time:'16:00', location:'سالن اصلی', desc:'با حضور نویسنده کتاب کودک', invitedStaffIds:[s4.id], createdBy:m.id}
+    ],
+    announcements:[
+      {id:uid(), title:'به‌روزرسانی سامانه امانت کشوری', body:'سامانه امانت‌دهی کشوری روز پنجشنبه از ساعت ۱۴ تا ۱۶ به‌روزرسانی می‌شود. لطفاً امانت‌های این بازه را مدیریت کنید.', priority:'بالا', createdAt:nowISO(), createdBy:m.id}
+    ],
+    leaveRequests:[],
+    lockers: Array.from({length:12},(_,i)=>{
+      const num = i+1;
+      const rented = [1,2,3,5,7,9].includes(num);
+      const names = ['زهرا محمدی','امیر حسینی','نگار صادقی','رضا اکبری','فاطمه یوسفی','محمد کاظمی'];
+      const idx = [1,2,3,5,7,9].indexOf(num);
+      return {
+        id:uid(), number:'K-'+String(num).padStart(2,'0'),
+        renter: rented ? names[idx] : '',
+        phone: rented ? '0912' + String(1000000 + num*1111) : '',
+        start: rented ? addDays(-40) : '',
+        end: rented ? addDays(20 - num) : '',
+        fee: 350000, status: rented ? 'اجاره‌ای' : 'آزاد'
+      };
+    }),
+    attendance:[],
+    notifications:[],
+    activity:[]
+  };
+}
+
+function migrateState(data){
+  if(!data || typeof data !== 'object') return null;
+  ['tasks','events','announcements','leaveRequests','lockers','attendance','notifications','activity'].forEach(k => {
+    if(!Array.isArray(data[k])) data[k] = [];
+  });
+  if(!Array.isArray(data.users) || data.users.length === 0) return null;
+  data.users.forEach(u => {
+    if(u.pinChanged === undefined){
+      const isDefault = u.pin === hashPin(DEFAULT_PIN_MANAGER) || u.pin === hashPin(DEFAULT_PIN_STAFF);
+      u.pinChanged = !isDefault;
+    }
+  });
+  if(!data.users.some(u => u.role === 'manager')){
+    data.users.push({id:uid(), name:'مدیر سیستم', role:'manager', pin:hashPin(DEFAULT_PIN_MANAGER), pinChanged:false, position:'مدیر', shift:'تمام وقت', active:true});
+  }
+  data._schemaVersion = SCHEMA_VERSION;
+  return data;
+}
+
+function validateState(data){
+  if(!data || typeof data !== 'object') return false;
+  if(!Array.isArray(data.users) || data.users.length === 0) return false;
+  if(!data.users.every(u => u.id && u.name && u.role && u.pin)) return false;
+  if(!data.users.some(u => u.role === 'manager')) return false;
+  return true;
+}
+
+function tryParseState(raw){
+  if(!raw) return null;
+  try{
+    const data = JSON.parse(raw);
+    if(!validateState(data)) return null;
+    return data;
+  }catch(e){ return null; }
+}
+
+function load(){
+  let data = tryParseState(localStorage.getItem(KEY));
+  if(data){ lastLoadSource = 'primary'; return migrateState(data); }
+  data = tryParseState(localStorage.getItem(BACKUP_KEY));
+  if(data){ lastLoadSource = 'backup'; return migrateState(data); }
+  lastLoadSource = 'fresh';
+  const s = seed();
+  localStorage.setItem(KEY, JSON.stringify(s));
+  try { localStorage.setItem(BACKUP_KEY, JSON.stringify(s)); } catch(e){}
+  return s;
+}
+
+function save(){
+  try{
+    const json = JSON.stringify(state);
+    localStorage.setItem(KEY, json);
+    try{ localStorage.setItem(BACKUP_KEY, json); }catch(e){}
+    lastSavedAt = Date.now();
+    return {ok:true};
+  }catch(err){
+    try{
+      localStorage.setItem(BACKUP_KEY, JSON.stringify(state));
+      lastSavedAt = Date.now();
+      return {ok:true, warning:'primary_failed'};
+    }catch(err2){
+      let msg = 'خطا در ذخیره‌سازی اطلاعات!';
+      if(err.name === 'QuotaExceededError'){ msg = 'فضای ذخیره‌سازی پر شده است.'; }
+      return {ok:false, message:msg};
+    }
+  }
+}
+
+function commit(){
+  const res = save();
+  if(!res.ok) toast(res.message, true);
+  if(!modalOpen) render();
+  updateNotifBadge();
+  checkNewNotifs();
+}
+
+/* ============================================================
+   AUTH
+   ============================================================ */
+function getCurrentUser(){
+  const id = sessionStorage.getItem(SESSION_KEY);
+  if(!id) return null;
+  return state.users.find(u => u.id === id && u.active) || null;
+}
+function setCurrentUser(id){ sessionStorage.setItem(SESSION_KEY, id); }
+
+function login(userId, pin){
+  const u = state.users.find(x => x.id === userId);
+  if(!u) return {ok:false, msg:'کاربر یافت نشد'};
+  if(!u.active) return {ok:false, msg:'این حساب غیرفعال است'};
+  if(hashPin(pin) !== u.pin) return {ok:false, msg:'رمز ورود اشتباه است'};
+  setCurrentUser(u.id);
+  return {ok:true};
+}
+
+function logout(){
+  sessionStorage.removeItem(SESSION_KEY);
+  loginStep = 'select';
+  pendingLoginUser = null;
+  document.getElementById('app').hidden = true;
+  document.getElementById('loginScreen').hidden = false;
+  renderLoginScreen();
+}
+
+/* ============================================================
+   NOTIFICATIONS
+   ============================================================ */
+function notify(userId, title, body){
+  const me = getCurrentUser();
+  if(me && me.id === userId) return;
+  state.notifications.unshift({id: uid(), userId, title, body, read:false, createdAt: nowISO()});
+  if(state.notifications.length > 200) state.notifications.length = 200;
+}
+
+function logActivity(type, message, userId){
+  state.activity = state.activity || [];
+  state.activity.unshift({ id:uid(), type, message, userId, createdAt: nowISO() });
+  if(state.activity.length > 80) state.activity.length = 80;
+}
+
+function checkNewNotifs(){
+  const me = getCurrentUser();
+  if(!me) return;
+  const unread = state.notifications.filter(n => n.userId === me.id && !n.read);
+  if(!unread.length) return;
+  const lastKey = 'lastNotif_' + me.id;
+  const lastId = sessionStorage.getItem(lastKey) || '';
+  const newest = unread[0];
+  if(newest.id === lastId) return;
+  sessionStorage.setItem(lastKey, newest.id);
+  showFloatingNotif(newest.title, newest.body);
+  showBrowserNotif(newest.title, newest.body);
+}
+
+function showFloatingNotif(title, body){
+  const el = document.createElement('div');
+  el.className = 'floating-notif';
+  el.innerHTML = `
+    <div class="ic">${ic('bell',18)}</div>
+    <div style="flex:1;min-width:0"><b>${esc(title)}</b><p>${esc(body)}</p></div>
+    <button class="close" aria-label="بستن">${ic('x',14)}</button>
+  `;
+  el.querySelector('.close').onclick = () => { el.classList.remove('show'); setTimeout(()=>el.remove(), 350); };
+  document.body.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add('show'));
+  setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(), 400); }, 6500);
+}
+
+function showBrowserNotif(title, body){
+  if(!('Notification' in window)) return;
+  if(Notification.permission === 'granted'){
+    try{
+      new Notification('📚 کتابخانه', {
+        body: title + '\n' + body,
+        icon: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4da.png'
+      });
+    }catch(e){}
+  }
+}
+
+function updateNotifBadge(){
+  const me = getCurrentUser();
+  if(!me) return;
+  const unread = state.notifications.filter(n => n.userId === me.id && !n.read).length;
+  ['notifBadge','notifBadgeMobile'].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(unread > 0){ el.textContent = unread > 9 ? '۹+' : fmtNum(unread); el.hidden = false; }
+    else el.hidden = true;
+  });
+}
+
+function toggleNotif(open){
+  const p = document.getElementById('notifPanel');
+  if(open){ p.classList.add('open'); renderNotifList(); }
+  else { p.classList.remove('open'); }
+}
+
+function renderNotifList(){
+  const me = getCurrentUser();
+  const list = state.notifications.filter(n => n.userId === me.id).slice(0, 40);
+  const el = document.getElementById('notifList');
+  if(!list.length){
+    el.innerHTML = `<div class="notif-empty"><div style="font-size:2rem;margin-bottom:12px">🎉</div><div>اعلان جدیدی ندارید</div></div>`;
+    return;
+  }
+  el.innerHTML = list.map(n => `
+    <div class="notif-item ${n.read?'':'unread'}">
+      ${n.read?'':'<div class="dot"></div>'}
+      <div class="body" style="flex:1">
+        <b>${esc(n.title)}</b>
+        <p>${esc(n.body)}</p>
+        <time>${timeAgo(n.createdAt)}</time>
+      </div>
+    </div>
+  `).join('');
+}
+
+function markAllRead(){
+  const me = getCurrentUser();
+  state.notifications.forEach(n => { if(n.userId === me.id) n.read = true; });
+  save();
+  updateNotifBadge();
+  renderNotifList();
+  toast('همه اعلان‌ها خوانده شد');
+}
+
+/* ============================================================
+   UI HELPERS
+   ============================================================ */
+function toast(msg, isErr){
+  const el = document.getElementById('toast');
+  el.innerHTML = `${ic(isErr?'alertCircle':'checkCircle',18)}<span>${esc(msg)}</span>`;
+  el.className = 'toast show' + (isErr?' error':'');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className='toast', 2800);
+}
+
+const badge = (t,c) => `<span class="badge badge-${c}">${esc(t)}</span>`;
+const priorityBadge = p => badge(p, p==='بالا'?'danger':p==='متوسط'?'warn':'muted');
+const statusBadge = s => badge(s, s==='انجام شده'?'ok':s==='در حال انجام'?'info':'muted');
+
+function emptyState(icon, title, desc){
+  return `<div class="empty-state"><div class="ic-big">${ic(icon,28)}</div><b>${esc(title)}</b><p>${esc(desc||'')}</p></div>`;
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openForm({title, fields, values = {}, onSubmit}){
+  document.getElementById('modalTitle').textContent = title;
+  const form = document.getElementById('modalForm');
+  form.innerHTML = `<div class="form-grid">${
+    fields.map(f=>{
+      const v = values[f.name] ?? f.default ?? '';
+      let input;
+      if(f.type === 'select'){
+        input = `<select name="${f.name}" ${f.required?'required':''}>${
+          f.options.map(o=>{
+            const val = o.value ?? o, lbl = o.label ?? o;
+            return `<option value="${esc(val)}" ${String(val)===String(v)?'selected':''}>${esc(lbl)}</option>`;
+          }).join('')
+        }</select>`;
+      } else if(f.type === 'textarea'){
+        input = `<textarea name="${f.name}" rows="3">${esc(v)}</textarea>`;
+      } else {
+        input = `<input type="${f.type||'text'}" name="${f.name}" value="${esc(v)}" ${f.required?'required':''}>`;
+      }
+      return `<div class="field ${f.full?'full':''}"><label>${esc(f.label)}</label>${input}</div>`;
+    }).join('')
+  }</div>
+  <div class="modal-foot">
+    <button type="button" class="btn" onclick="closeForm()">انصراف</button>
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+  </div>`;
+
+  form.onsubmit = (e)=>{
+    e.preventDefault();
+    const data = {};
+    new FormData(form).forEach((v,k)=> data[k]= typeof v==='string'? v.trim() : v);
+    const keepOpen = onSubmit(data);
+    if(keepOpen !== false) closeForm();
+  };
+
+  modalOpen = true;
+  document.getElementById('backdrop').classList.add('show');
+  setTimeout(()=>{ const f = form.querySelector('input,select,textarea'); if(f) f.focus(); }, 100);
+}
+function closeForm(){
+  modalOpen = false;
+  document.getElementById('backdrop').classList.remove('show');
+  document.getElementById('modalForm').innerHTML = '';
+  render();
+}
+document.getElementById('backdrop').addEventListener('click', e=>{
+  if(e.target.id === 'backdrop') closeForm();
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeForm(); });
+function confirmDel(msg, fn){
+  if(confirm(msg)){ fn(); commit(); toast('حذف شد'); }
+}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+function renderLoginScreen(){
+  const card = document.getElementById('loginCard');
+  if(loginStep === 'select'){
+    const activeUsers = state.users.filter(u => u.active);
+    const showDefaultHint = activeUsers.some(u => !u.pinChanged);
+    card.innerHTML = `
+      <div class="login-logo">${ic('book',36,1.8)}</div>
+      <h1>سامانه مدیریت کتابخانه</h1>
+      <p class="login-sub">برای ورود، کاربر خود را انتخاب کنید</p>
+      <div class="user-grid">
+        ${activeUsers.map(u => `
+          <div class="user-card" onclick="pickUser('${u.id}')" role="button" tabindex="0">
+            <div class="av">${esc(u.name.charAt(0))}</div>
+            <b>${esc(u.name)}</b>
+            <small>${esc(u.position)}</small>
+            ${badge(u.role==='manager'?'مدیر':'کارمند', u.role==='manager'?'warn':'info')}
+          </div>
+        `).join('') || '<div style="grid-column:1/-1;text-align:center;color:var(--slate-500);padding:20px">کاربر فعالی وجود ندارد</div>'}
+      </div>
+      ${showDefaultHint ? `
+      <div class="login-hint">
+        رمز مدیر: <code>${DEFAULT_PIN_MANAGER}</code> &nbsp;•&nbsp; رمز کارکنان: <code>${DEFAULT_PIN_STAFF}</code>
+        <div style="font-size:.6875rem;color:var(--slate-400);margin-top:6px">پس از تغییر رمز توسط همه کاربران، این راهنما خودکار پنهان می‌شود</div>
+      </div>` : ''}
+    `;
+  } else {
+    const u = pendingLoginUser;
+    card.innerHTML = `
+      <div class="pin-box">
+        <div class="login-logo">${ic('lock',34,1.8)}</div>
+        <h1>ورود به حساب</h1>
+        <p class="login-sub">رمز ورود خود را وارد کنید</p>
+        <div class="pin-user">
+          <div class="avatar avatar-lg">${esc(u.name.charAt(0))}</div>
+          <div style="text-align:right">
+            <div style="font-weight:700;color:var(--slate-900)">${esc(u.name)}</div>
+            <div style="color:var(--slate-500);font-size:.8125rem">${esc(u.position)}</div>
+          </div>
+        </div>
+        <form onsubmit="submitPin(event)">
+          <div class="pin-error" id="pinError" hidden></div>
+          <div class="pin-input-wrap">
+            <input type="password" class="pin-input" id="pinInput" inputmode="numeric" maxlength="8" autocomplete="off">
+          </div>
+          <div class="pin-actions">
+            <button type="button" class="btn" onclick="backToSelect()">بازگشت</button>
+            <button type="submit" class="btn btn-primary">ورود</button>
+          </div>
+        </form>
+      </div>
+    `;
+    setTimeout(()=> document.getElementById('pinInput')?.focus(), 120);
+  }
+}
+function pickUser(id){
+  pendingLoginUser = state.users.find(u => u.id === id);
+  loginStep = 'pin';
+  renderLoginScreen();
+}
+function backToSelect(){
+  loginStep = 'select';
+  pendingLoginUser = null;
+  renderLoginScreen();
+}
+function submitPin(e){
+  e.preventDefault();
+  const pin = document.getElementById('pinInput').value.trim();
+  const res = login(pendingLoginUser.id, pin);
+  if(!res.ok){
+    const err = document.getElementById('pinError');
+    err.textContent = res.msg;
+    err.hidden = false;
+    document.getElementById('pinInput').value = '';
+    return;
+  }
+  showApp();
+}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+const VIEWS_MANAGER = [
+  {id:'dashboard', label:'داشبورد', icon:'dashboard', title:'داشبورد مدیریت'},
+  {id:'tasks', label:'وظایف', icon:'tasks', title:'وظایف کارکنان'},
+  {id:'events', label:'جلسات و مراسم', icon:'calendar', title:'جلسات و مراسم'},
+  {id:'announcements', label:'اعلانات', icon:'megaphone', title:'اعلانات'},
+  {id:'leave', label:'مرخصی', icon:'inbox', title:'درخواست‌های مرخصی'},
+  {id:'attendance', label:'حضور و غیاب', icon:'clock', title:'حضور و غیاب'},
+  {id:'staff', label:'کارکنان', icon:'users', title:'مدیریت کارکنان'},
+  {id:'lockers', label:'کمدها', icon:'lock', title:'کمدهای سالن مطالعه'},
+  {id:'settings', label:'تنظیمات', icon:'settings', title:'تنظیمات'}
+];
+const VIEWS_STAFF = [
+  {id:'dashboard', label:'داشبورد', icon:'dashboard', title:'داشبورد من'},
+  {id:'tasks', label:'وظایف من', icon:'tasks', title:'وظایف من'},
+  {id:'events', label:'جلسات و مراسم', icon:'calendar', title:'جلسات و مراسم'},
+  {id:'announcements', label:'اعلانات', icon:'megaphone', title:'اعلانات'},
+  {id:'leave', label:'مرخصی من', icon:'inbox', title:'مرخصی من'},
+  {id:'attendance', label:'حضور من', icon:'clock', title:'حضور و غیاب من'},
+  {id:'settings', label:'تنظیمات', icon:'settings', title:'تنظیمات'}
+];
+const BOTTOM_MANAGER = ['dashboard','tasks','events','announcements'];
+const BOTTOM_STAFF = ['dashboard','tasks','events','announcements'];
+
+function getViews(){
+  const me = getCurrentUser();
+  return me?.role === 'manager' ? VIEWS_MANAGER : VIEWS_STAFF;
+}
+function getBottomItems(){
+  const me = getCurrentUser();
+  const ids = me?.role === 'manager' ? BOTTOM_MANAGER : BOTTOM_STAFF;
+  const views = getViews();
+  return ids.map(id => views.find(v=>v.id===id)).filter(Boolean);
+}
+
+function renderSidebar(){
+  const views = getViews();
+  const me = getCurrentUser();
+  document.getElementById('brandSub').textContent = me.role==='manager'?'دستیار مدیر':'پنل کارمند';
+  document.getElementById('nav').innerHTML = views.map(v => {
+    let cnt = '';
+    if(v.id === 'tasks' && me.role === 'staff'){
+      const n = state.tasks.filter(t => t.staffId === me.id && t.status !== 'انجام شده').length;
+      if(n) cnt = `<span class="count">${fmtNum(n)}</span>`;
+    }
+    if(v.id === 'leave' && me.role === 'manager'){
+      const n = state.leaveRequests.filter(r => r.status === 'در انتظار').length;
+      if(n) cnt = `<span class="count">${fmtNum(n)}</span>`;
+    }
+    return `<button class="nav-item ${v.id===currentView?'active':''}" onclick="go('${v.id}')">
+      <span class="ic">${ic(v.icon,18)}</span>
+      <span class="label">${v.label}</span>${cnt}
+    </button>`;
+  }).join('');
+  document.getElementById('btnExport').innerHTML = `${ic('download',16)} پشتیبان‌گیری`;
+  document.getElementById('btnRestore').innerHTML = `${ic('upload',16)} بازیابی`;
+}
+
+function renderBottomNav(){
+  const items = getBottomItems();
+  const me = getCurrentUser();
+  document.getElementById('bottomNav').innerHTML = items.map(v => {
+    let cnt = '';
+    if(v.id === 'tasks' && me.role === 'staff'){
+      const n = state.tasks.filter(t => t.staffId === me.id && t.status !== 'انجام شده').length;
+      if(n) cnt = `<span class="count">${fmtNum(n)}</span>`;
+    }
+    return `<button class="bottom-nav-item ${v.id===currentView?'active':''}" onclick="go('${v.id}')">
+      <span class="ic">${ic(v.icon,22)}</span>
+      <span>${v.label}</span>${cnt}
+    </button>`;
+  }).join('') + `
+    <button class="bottom-nav-item" onclick="toggleDrawer(true)">
+      <span class="ic">${ic('menu',22)}</span>
+      <span>بیشتر</span>
+    </button>`;
+}
+
+function renderTopbar(){
+  const me = getCurrentUser();
+  document.getElementById('userPill').innerHTML = `
+    <div class="avatar avatar-sm">${esc(me.name.charAt(0))}</div>
+    <div class="info"><b>${esc(me.name)}</b><small>${esc(me.position)}</small></div>
+  `;
+  document.getElementById('drawerAvatar').textContent = me.name.charAt(0);
+  document.getElementById('drawerName').textContent = me.name;
+  document.getElementById('drawerRole').textContent = me.position + ' • ' + (me.role==='manager'?'مدیر':'کارمند');
+
+  const views = getViews();
+  const bottomIds = me.role==='manager' ? BOTTOM_MANAGER : BOTTOM_STAFF;
+  const drawerViews = views.filter(v => !bottomIds.includes(v.id) && v.id !== 'dashboard');
+  document.getElementById('drawerNav').innerHTML = drawerViews.map(v => `
+    <button class="nav-item" style="color:var(--slate-700);background:transparent" onclick="go('${v.id}');toggleDrawer(false)">
+      <span class="ic">${ic(v.icon,18)}</span>
+      <span class="label">${v.label}</span>
+    </button>
+  `).join('') || '<div style="padding:20px;text-align:center;color:var(--slate-500);font-size:.8125rem">مورد دیگری وجود ندارد</div>';
+
+  document.getElementById('menuBtn').innerHTML = ic('menu',20);
+  document.getElementById('notifClose').innerHTML = ic('x',18);
+  document.getElementById('drawerClose').innerHTML = ic('x',18);
+  document.getElementById('logoutBtn').innerHTML = ic('logout',18);
+  document.getElementById('drawerLogoutIc').innerHTML = ic('logout',18);
+  document.getElementById('bellMobile').innerHTML = ic('bell',20);
+  document.getElementById('bellDesktop').innerHTML = ic('bell',18);
+  document.getElementById('addBtnIc').innerHTML = ic('plus',16);
+  document.getElementById('fab').innerHTML = ic('plus',26);
+  document.getElementById('brandLogo').innerHTML = ic('book',22);
+  document.getElementById('mobileLogo').innerHTML = ic('book',18);
+}
+
+function showApp(){
+  document.getElementById('loginScreen').hidden = true;
+  document.getElementById('app').hidden = false;
+  currentView = 'dashboard';
+  searchQuery = '';
+  renderSidebar();
+  renderBottomNav();
+  renderTopbar();
+  render();
+  updateNotifBadge();
+  checkNewNotifs();
+  if(lastLoadSource === 'backup'){
+    setTimeout(()=> toast('اطلاعات از نسخه پشتیبان خودکار بازیابی شد', true), 800);
+  }
+}
+
+function go(id){
+  currentView = id;
+  searchQuery = '';
+  renderSidebar();
+  renderBottomNav();
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function toggleDrawer(open){
+  document.getElementById('drawer').classList.toggle('open', open);
+}
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function render(){
+  const me = getCurrentUser();
+  if(!me) return;
+  const views = getViews();
+  const v = views.find(x => x.id === currentView) || views[0];
+  document.getElementById('pageTitle').textContent = v.title;
+  document.getElementById('pageSub').textContent =
+    new Date().toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  const canAdd = {
+    tasks: me.role === 'manager',
+    events: me.role === 'manager',
+    announcements: me.role === 'manager',
+    leave: me.role === 'staff',
+    staff: me.role === 'manager',
+    lockers: me.role === 'manager'
+  }[currentView];
+  document.getElementById('addBtn').hidden = !canAdd;
+  document.getElementById('fab').hidden = !canAdd;
+
+  const map = {
+    dashboard: renderDashboard, tasks: renderTasks, events: renderEvents,
+    announcements: renderAnnouncements, leave: renderLeave,
+    attendance: renderAttendance, staff: renderStaff,
+    lockers: renderLockers, settings: renderSettings
+  };
+  document.getElementById('view').innerHTML = (map[currentView] || (()=>''))();
+  updateNotifBadge();
+}
+
+/* ============================================================
+   DEFAULT PIN BANNER & NOTIFICATION BANNER
+   ============================================================ */
+function defaultPinBanner(user){
+  if(user.pinChanged) return '';
+  return `<div class="default-pin-banner">
+    <div class="txt">
+      <b>${ic('alertTriangle',14)} رمز ورود شما هنوز پیش‌فرض است</b>
+      <p>برای امنیت بیشتر، رمز خود را از بخش تنظیمات تغییر دهید</p>
+    </div>
+    <button onclick="go('settings')">تغییر رمز</button>
+  </div>`;
+}
+
+function notifPermissionBanner(){
+  if (!('Notification' in window)) return '';
+  if (Notification.permission === 'granted') return '';
+  return `<div class="notif-banner">
+    <div>
+      <b>${ic('bell',16)} دریافت اعلان‌ها</b>
+      <p style="font-size:.75rem;opacity:.9;margin-top:2px">برای دریافت وظایف و اعلان‌های جدید، نوتیفیکیشن را فعال کنید.</p>
+    </div>
+    <button onclick="requestNotificationPermission()">فعال‌سازی</button>
+  </div>`;
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function renderDashboard(){
+  const me = getCurrentUser();
+  return me.role === 'manager' ? renderManagerDashboard(me) : renderStaffDashboard(me);
+}
+
+function statCard(accent, iconName, iconBg, iconColor, lbl, val, hint){
+  return `<div class="stat">
+    <div class="accent" style="background:${accent}"></div>
+    <div class="ic-wrap" style="background:${iconBg};color:${iconColor}">${ic(iconName,18)}</div>
+    <div class="lbl">${lbl}</div>
+    <div class="val">${val}</div>
+    <div class="hint">${hint}</div>
+  </div>`;
+}
+
+function renderManagerDashboard(me){
+  const totalTasks = state.tasks.length;
+  const doneTasks = state.tasks.filter(t => t.status === 'انجام شده').length;
+  const pendingLeave = state.leaveRequests.filter(r => r.status === 'در انتظار').length;
+  const activeLockers = state.lockers.filter(l => l.status === 'اجاره‌ای').length;
+  const upcomingEvents = state.events.filter(e => e.date >= today()).length;
+  const activeStaff = state.users.filter(u => u.active && u.role === 'staff').length;
+  const completion = totalTasks ? Math.round(doneTasks/totalTasks*100) : 0;
+
+  const pendingTasks = state.tasks.filter(t => t.status !== 'انجام شده')
+    .sort((a,b)=> DAYS.indexOf(a.day) - DAYS.indexOf(b.day)).slice(0, 5);
+  const nextEvents = state.events.filter(e => e.date >= today())
+    .sort((a,b)=> a.date.localeCompare(b.date)).slice(0, 4);
+  const recentActivity = (state.activity || []).slice(0, 6);
+
+  return `
+  ${defaultPinBanner(me)}
+  ${notifPermissionBanner()}
+  <div class="stats-grid">
+    ${statCard('var(--brand-500)','users','var(--brand-100)','var(--brand-600)','کارکنان فعال', fmtNum(activeStaff), `از ${fmtNum(state.users.length-1)} نفر`)}
+    ${statCard('var(--ok-500)','trendingUp','var(--ok-100)','var(--ok-600)','تکمیل وظایف', completion+'٪', `${fmtNum(doneTasks)} از ${fmtNum(totalTasks)}`)}
+    ${statCard('var(--warn-500)','calendar','var(--warn-100)','var(--warn-600)','رویدادهای پیش‌رو', fmtNum(upcomingEvents), 'جلسه و مراسم')}
+    ${statCard('var(--danger-500)','inbox','var(--danger-100)','var(--danger-600)','مرخصی در انتظار', fmtNum(pendingLeave), pendingLeave?'نیازمند بررسی':'همه بررسی شده')}
+    ${statCard('var(--info-500)','lock','var(--info-100)','var(--info-600)','کمدهای اجاره‌ای', fmtNum(activeLockers), `از ${fmtNum(state.lockers.length)} کمد`)}
+    ${statCard('#a855f7','megaphone','#f3e8ff','#9333ea','اعلانات اخیر', fmtNum(state.announcements.length), 'منتشر شده')}
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-head">
+        <h2>رویدادهای پیش‌رو</h2>
+        <button class="btn btn-sm" onclick="go('events')">مشاهده همه</button>
+      </div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>عنوان</th><th>تاریخ</th><th>محل</th></tr></thead>
+        <tbody>${nextEvents.length ? nextEvents.map(e=>`<tr>
+          <td data-label="عنوان"><div><b>${esc(e.title)}</b><div style="color:var(--slate-500);font-size:.75rem;margin-top:2px">${esc(e.type)}</div></div></td>
+          <td data-label="تاریخ">${friendlyDate(e.date)}<div style="color:var(--slate-500);font-size:.75rem">${e.time||''}</div></td>
+          <td data-label="محل">${esc(e.location||'--')}</td>
+        </tr>`).join('') : `<tr><td colspan="3">${emptyState('calendar','رویدادی در پیش نیست','')}</td></tr>`}</tbody>
+      </table></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2>وظایف در انتظار</h2>
+        <button class="btn btn-sm" onclick="go('tasks')">مشاهده همه</button>
+      </div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>وظیفه</th><th>مسئول</th><th>روز</th></tr></thead>
+        <tbody>${pendingTasks.length ? pendingTasks.map(t=>{
+          const u = state.users.find(x => x.id === t.staffId);
+          return `<tr>
+            <td data-label="وظیفه">${esc(t.title)}</td>
+            <td data-label="مسئول">${esc(u?.name || '--')}</td>
+            <td data-label="روز">${badge(t.day,'muted')}</td>
+          </tr>`;
+        }).join('') : `<tr><td colspan="3">${emptyState('checkCircle','همه وظایف انجام شده','')}</td></tr>`}</tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-head"><h2>فعالیت‌های اخیر</h2></div>
+      <div>${recentActivity.length ? recentActivity.map(a=>{
+        const u = state.users.find(x => x.id === a.userId);
+        return `<div class="activity-item">
+          <div class="avatar avatar-sm">${esc((u?.name||'؟').charAt(0))}</div>
+          <div class="body"><p>${esc(a.message)}</p><time>${timeAgo(a.createdAt)}</time></div>
+        </div>`;
+      }).join('') : emptyState('inbox','فعالیتی ثبت نشده','')}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2>وضعیت کمدها</h2>
+        <button class="btn btn-sm" onclick="go('lockers')">مدیریت</button>
+      </div>
+      <div class="bar-chart">
+        ${state.lockers.slice(0,6).map(l=>{
+          const p = l.status === 'اجاره‌ای' ? 100 : 0;
+          return `<div class="bar-row">
+            <span class="nm">${esc(l.number)} -- ${esc(l.renter || 'آزاد')}</span>
+            <span class="track"><span class="fill" style="width:${p}%;${p?'':'background:var(--slate-200)'}"></span></span>
+            <span class="vl" style="color:${p?'var(--ok-600)':'var(--slate-400)'}">${p?'اشغال':'آزاد'}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderStaffDashboard(me){
+  const myTasks = state.tasks.filter(t => t.staffId === me.id);
+  const myPending = myTasks.filter(t => t.status !== 'انجام شده');
+  const doneTasks = myTasks.filter(t => t.status === 'انجام شده').length;
+  const myEvents = state.events.filter(e => e.date >= today() && (!e.invitedStaffIds.length || e.invitedStaffIds.includes(me.id)))
+    .sort((a,b)=> a.date.localeCompare(b.date));
+  const todayAtt = state.attendance.find(a => a.staffId === me.id && a.date === today());
+
+  const checkin = todayAtt
+    ? (todayAtt.checkOut
+        ? `<div class="att-status">${ic('checkCircle',16)} حضور ثبت شد -- ${fmtTime(todayAtt.checkIn)} تا ${fmtTime(todayAtt.checkOut)}</div>`
+        : `<button class="att-btn checkout" onclick="attendanceCheckout()">${ic('clock',16)} ثبت خروج</button>`)
+    : `<button class="att-btn" onclick="attendanceCheckin()">${ic('check',16)} ثبت ورود</button>`;
+
+  return `
+  ${defaultPinBanner(me)}
+  ${notifPermissionBanner()}
+  <div class="att-hero">
+    <div>
+      <div class="time">${new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})}</div>
+      <div class="date">${new Date().toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
+    </div>
+    <div class="actions-wrap">${checkin}</div>
+  </div>
+
+  <div class="stats-grid">
+    ${statCard('var(--danger-500)','tasks','var(--danger-100)','var(--danger-600)','وظایف در انتظار', fmtNum(myPending.length), myPending.length?'نیازمند انجام':'همه انجام شده')}
+    ${statCard('var(--ok-500)','checkCircle','var(--ok-100)','var(--ok-600)','وظایف انجام‌شده', fmtNum(doneTasks), 'در این دوره')}
+    ${statCard('var(--warn-500)','calendar','var(--warn-100)','var(--warn-600)','رویدادهای پیش‌رو', fmtNum(myEvents.length), 'دعوت شده')}
+    ${statCard('var(--info-500)','inbox','var(--info-100)','var(--info-600)','مرخصی‌های من', fmtNum(state.leaveRequests.filter(r=>r.staffId===me.id).length), 'ثبت شده')}
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-head">
+        <h2>وظایف در انتظار من</h2>
+        <button class="btn btn-sm" onclick="go('tasks')">مشاهده همه</button>
+      </div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>عنوان</th><th>روز</th><th>اولویت</th><th></th></tr></thead>
+        <tbody>${myPending.length ? myPending
+          .sort((a,b)=> DAYS.indexOf(a.day) - DAYS.indexOf(b.day)).slice(0,6)
+          .map(t=>`<tr>
+            <td data-label="عنوان">${esc(t.title)}</td>
+            <td data-label="روز">${badge(t.day,'muted')}</td>
+            <td data-label="اولویت">${priorityBadge(t.priority)}</td>
+            <td class="actions-cell"><button class="icon-action" onclick="completeTask('${t.id}')" title="تکمیل">${ic('check',16)}</button></td>
+          </tr>`).join('') : `<tr><td colspan="4">${emptyState('checkCircle','همه وظایف انجام شده','')}</td></tr>`}</tbody>
+      </table></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2>رویدادهای پیش‌رو</h2>
+        <button class="btn btn-sm" onclick="go('events')">مشاهده همه</button>
+      </div>
+      <div class="table-wrap"><table class="data-table">
+        <thead><tr><th>عنوان</th><th>تاریخ</th><th>محل</th></tr></thead>
+        <tbody>${myEvents.length ? myEvents.slice(0,4).map(e=>`<tr>
+          <td data-label="عنوان"><div><b>${esc(e.title)}</b><div style="color:var(--slate-500);font-size:.75rem">${esc(e.type)}</div></div></td>
+          <td data-label="تاریخ">${friendlyDate(e.date)}<div style="color:var(--slate-500);font-size:.75rem">${e.time||''}</div></td>
+          <td data-label="محل">${esc(e.location||'--')}</td>
+        </tr>`).join('') : `<tr><td colspan="3">${emptyState('calendar','رویدادی در پیش نیست','')}</td></tr>`}</tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>آخرین اعلانات</h2>
+      <button class="btn btn-sm" onclick="go('announcements')">مشاهده همه</button>
+    </div>
+    <div>${state.announcements.length ? state.announcements.slice(0,3).map(a=>{
+      const creator = state.users.find(x => x.id === a.createdBy);
+      return `<div class="ann-card">
+        <div class="ann-card-head">
+          ${priorityBadge(a.priority)}
+          <b>${esc(a.title)}</b>
+        </div>
+        <p>${esc(a.body)}</p>
+        <div class="meta">${ic('user',12)} ${esc(creator?.name||'--')} • ${timeAgo(a.createdAt)}</div>
+      </div>`;
+    }).join('') : emptyState('megaphone','اعلانی وجود ندارد','')}</div>
+  </div>`;
+}
+
+/* ============================================================
+   TASKS
+   ============================================================ */
+function renderTasks(){
+  const me = getCurrentUser();
+  const isManager = me.role === 'manager';
+  const q = searchQuery.toLowerCase();
+
+  let list = state.tasks.slice();
+  if(!isManager) list = list.filter(t => t.staffId === me.id);
+  if(q) list = list.filter(t => (t.title + t.notes).toLowerCase().includes(q));
+  list.sort((a,b)=> DAYS.indexOf(a.day) - DAYS.indexOf(b.day));
+
+  return `<div class="section">
+    <div class="section-head">
+      <h2>فهرست وظایف</h2>
+      <div class="search-input">
+        ${ic('search',16)}
+        <input placeholder="جستجوی وظیفه..." value="${esc(searchQuery)}"
+          oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+      </div>
+    </div>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr>
+        <th>عنوان</th>${isManager?'<th>مسئول</th>':''}
+        <th>روز</th><th>اولویت</th><th>وضعیت</th><th></th>
+      </tr></thead>
+      <tbody>${list.length ? list.map(t=>{
+        const staff = state.users.find(u => u.id === t.staffId);
+        return `<tr>
+          <td data-label="عنوان"><div><b>${esc(t.title)}</b>${t.notes?`<div style="color:var(--slate-500);font-size:.75rem;margin-top:2px">${esc(t.notes)}</div>`:''}</div></td>
+          ${isManager?`<td data-label="مسئول">${esc(staff?.name || '--')}</td>`:''}
+          <td data-label="روز">${badge(t.day,'muted')}</td>
+          <td data-label="اولویت">${priorityBadge(t.priority)}</td>
+          <td data-label="وضعیت">${statusBadge(t.status)}</td>
+          <td class="actions-cell" style="display:flex;gap:6px;justify-content:flex-end">
+            ${!isManager && t.status !== 'انجام شده' ? `
+              <button class="icon-action" title="شروع" onclick="startTask('${t.id}')">${ic('playCircle',16)}</button>
+              <button class="icon-action" title="تکمیل" onclick="completeTask('${t.id}')">${ic('check',16)}</button>
+            ` : ''}
+            ${isManager ? `
+              <button class="icon-action" title="ویرایش" onclick="editTask('${t.id}')">${ic('edit',15)}</button>
+              <button class="icon-action danger" title="حذف" onclick="delTask('${t.id}')">${ic('trash',15)}</button>
+            ` : ''}
+          </td>
+        </tr>`;
+      }).join('') : `<tr><td colspan="${isManager?6:5}">${emptyState('tasks','وظیفه‌ای ثبت نشده است','برای افزودن روی دکمه + بزنید')}</td></tr>`}</tbody>
+    </table></div>
+  </div>`;
+}
+
+function taskForm(item){
+  const staffList = state.users.filter(u => u.active && u.role === 'staff');
+  if(!staffList.length) return toast('هیچ کارمند فعالی وجود ندارد', true);
+  openForm({
+    title: item ? 'ویرایش وظیفه' : 'وظیفه جدید',
+    fields:[
+      {name:'title', label:'عنوان وظیفه', required:true, full:true},
+      {name:'staffId', label:'کارمند مسئول', type:'select', required:true,
+        options: staffList.map(s => ({value:s.id, label:s.name + ' -- ' + s.position}))},
+      {name:'day', label:'روز هفته', type:'select', options: DAYS},
+      {name:'priority', label:'اولویت', type:'select', options: PRIORITIES},
+      {name:'status', label:'وضعیت', type:'select', options: TASK_STATUS},
+      {name:'notes', label:'توضیحات', type:'textarea', full:true}
+    ],
+    values: item || {day:'شنبه', priority:'متوسط', status:'در انتظار'},
+    onSubmit: d => {
+      if(item){
+        const oldStaffId = item.staffId;
+        Object.assign(item, d);
+        if(oldStaffId !== d.staffId) notify(d.staffId, 'وظیفه به شما ارجاع شد', `«${d.title}» -- ${d.day}`);
+        logActivity('task', `وظیفه «${d.title}» ویرایش شد`, getCurrentUser().id);
+        toast('وظیفه ویرایش شد');
+      } else {
+        const t = {id:uid(), ...d, createdAt:nowISO(), createdBy:getCurrentUser().id};
+        state.tasks.push(t);
+        const staffName = staffList.find(s=>s.id===d.staffId)?.name || '';
+        notify(d.staffId, 'وظیفه جدید برای شما', `«${d.title}» -- ${d.day}`);
+        logActivity('task', `وظیفه «${d.title}» برای ${staffName} ثبت شد`, getCurrentUser().id);
+        toast('وظیفه ثبت شد و به کارمند اطلاع داده شد');
+      }
+      commit();
+    }
+  });
+}
+function editTask(id){ const t = state.tasks.find(x => x.id === id); if(t) taskForm(t); }
+function delTask(id){
+  const t = state.tasks.find(x => x.id === id);
+  if(!t) return;
+  confirmDel('این وظیفه حذف شود؟', ()=>{
+    state.tasks = state.tasks.filter(x => x.id !== id);
+    logActivity('task', `وظیفه «${t.title}» حذف شد`, getCurrentUser().id);
+  });
+}
+function completeTask(id){
+  const t = state.tasks.find(x => x.id === id);
+  if(!t) return;
+  t.status = 'انجام شده';
+  const mgr = state.users.find(u => u.role === 'manager' && u.active);
+  const me = getCurrentUser();
+  if(mgr) notify(mgr.id, 'وظیفه تکمیل شد', `${me.name} وظیفه «${t.title}» را انجام داد.`);
+  logActivity('task', `${me.name} وظیفه «${t.title}» را تکمیل کرد`, me.id);
+  commit();
+  toast('وظیفه تکمیل شد');
+}
+function startTask(id){
+  const t = state.tasks.find(x => x.id === id);
+  if(!t) return;
+  t.status = 'در حال انجام';
+  logActivity('task', `${getCurrentUser().name} شروع کرد: «${t.title}»`, getCurrentUser().id);
+  commit();
+  toast('وضعیت به «در حال انجام» تغییر کرد');
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+function renderEvents(){
+  const me = getCurrentUser();
+  const isManager = me.role === 'manager';
+  const q = searchQuery.toLowerCase();
+  let list = state.events.slice();
+  if(!isManager) list = list.filter(e => !e.invitedStaffIds.length || e.invitedStaffIds.includes(me.id));
+  if(q) list = list.filter(e => (e.title + e.type + e.location).toLowerCase().includes(q));
+  list.sort((a,b)=> a.date.localeCompare(b.date));
+
+  return `<div class="section">
+    <div class="section-head">
+      <h2>جلسات، مراسم و کارگاه‌ها</h2>
+      <div class="search-input">
+        ${ic('search',16)}
+        <input placeholder="جستجوی رویداد..." value="${esc(searchQuery)}"
+          oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+      </div>
+    </div>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr>
+        <th>عنوان</th><th>نوع</th><th>تاریخ</th><th>ساعت</th><th>محل</th><th>وضعیت</th>${isManager?'<th></th>':''}
+      </tr></thead>
+      <tbody>${list.length ? list.map(e=>{
+        const st = e.date < today() ? 'گذشته' : e.date === today() ? 'امروز' : 'پیش‌رو';
+        const stc = st==='گذشته' ? 'muted' : st==='امروز' ? 'danger' : 'ok';
+        return `<tr>
+          <td data-label="عنوان"><div><b>${esc(e.title)}</b>${e.desc?`<div style="color:var(--slate-500);font-size:.75rem;margin-top:2px">${esc(e.desc)}</div>`:''}</div></td>
+          <td data-label="نوع">${badge(e.type, e.type==='جلسه'?'info':e.type==='مراسم'?'warn':'ok')}</td>
+          <td data-label="تاریخ">${friendlyDate(e.date)}</td>
+          <td data-label="ساعت">${e.time||'--'}</td>
+          <td data-label="محل">${esc(e.location||'--')}</td>
+          <td data-label="وضعیت">${badge(st,stc)}</td>
+          ${isManager?`<td class="actions-cell" style="display:flex;gap:6px;justify-content:flex-end">
+            <button class="icon-action" onclick="editEvent('${e.id}')">${ic('edit',15)}</button>
+            <button class="icon-action danger" onclick="delEvent('${e.id}')">${ic('trash',15)}</button>
+          </td>`:''}
+        </tr>`;
+      }).join('') : `<tr><td colspan="${isManager?7:6}">${emptyState('calendar','رویدادی ثبت نشده است','برای افزودن روی دکمه + بزنید')}</td></tr>`}</tbody>
+    </table></div>
+  </div>`;
+}
+function eventForm(item){
+  const staffList = state.users.filter(u => u.active && u.role === 'staff');
+  openForm({
+    title: item ? 'ویرایش رویداد' : 'رویداد جدید',
+    fields:[
+      {name:'title', label:'عنوان رویداد', required:true, full:true},
+      {name:'type', label:'نوع', type:'select', options: EVENT_TYPES},
+      {name:'date', label:'تاریخ', type:'date', required:true},
+      {name:'time', label:'ساعت', type:'time'},
+      {name:'location', label:'محل برگزاری'},
+      {name:'desc', label:'توضیحات', type:'textarea', full:true}
+    ],
+    values: item || {type:'جلسه', date: today()},
+    onSubmit: d => {
+      if(item){ Object.assign(item, d); toast('رویداد ویرایش شد'); }
+      else {
+        const e = {id:uid(), ...d, invitedStaffIds:[], createdBy:getCurrentUser().id};
+        state.events.push(e);
+        staffList.forEach(s => notify(s.id, 'رویداد جدید', `«${e.title}» -- ${friendlyDate(e.date)} ساعت ${e.time||''}`));
+        logActivity('event', `رویداد «${e.title}» ایجاد شد`, getCurrentUser().id);
+        toast('رویداد ثبت شد و به همه اطلاع داده شد');
+      }
+      commit();
+    }
+  });
+}
+function editEvent(id){ const e = state.events.find(x => x.id === id); if(e) eventForm(e); }
+function delEvent(id){
+  const e = state.events.find(x => x.id === id);
+  if(!e) return;
+  confirmDel('این رویداد حذف شود؟', ()=>{
+    state.events = state.events.filter(x => x.id !== id);
+    logActivity('event', `رویداد «${e.title}» حذف شد`, getCurrentUser().id);
+  });
+}
+
+/* ============================================================
+   ANNOUNCEMENTS
+   ============================================================ */
+function renderAnnouncements(){
+  const me = getCurrentUser();
+  const isManager = me.role === 'manager';
+  const q = searchQuery.toLowerCase();
+  let list = state.announcements.slice();
+  if(q) list = list.filter(a => (a.title + a.body).toLowerCase().includes(q));
+  list.sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
+
+  return `<div class="section">
+    <div class="section-head">
+      <h2>اعلانات کتابخانه</h2>
+      <div class="search-input">
+        ${ic('search',16)}
+        <input placeholder="جستجوی اعلان..." value="${esc(searchQuery)}"
+          oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+      </div>
+    </div>
+    <div>${list.length ? list.map(a=>{
+      const creator = state.users.find(u => u.id === a.createdBy);
+      return `<div class="ann-card">
+        <div class="ann-card-head">
+          ${priorityBadge(a.priority)}
+          <b style="flex:1">${esc(a.title)}</b>
+          ${isManager?`<button class="icon-action danger" onclick="delAnn('${a.id}')">${ic('trash',15)}</button>`:''}
+        </div>
+        <p>${esc(a.body)}</p>
+        <div class="meta">${ic('user',12)} ${esc(creator?.name||'--')} • ${timeAgo(a.createdAt)}</div>
+      </div>`;
+    }).join('') : emptyState('megaphone','اعلانی وجود ندارد','اعلانات مدیر در اینجا نمایش داده می‌شوند')}</div>
+  </div>`;
+}
+function annForm(){
+  openForm({
+    title: 'اعلان جدید',
+    fields:[
+      {name:'title', label:'عنوان اعلان', required:true, full:true},
+      {name:'priority', label:'اهمیت', type:'select', options:['بالا','متوسط','پایین']},
+      {name:'body', label:'متن اعلان', type:'textarea', full:true}
+    ],
+    values: {priority:'متوسط'},
+    onSubmit: d => {
+      const a = {id:uid(), ...d, createdAt:nowISO(), createdBy:getCurrentUser().id};
+      state.announcements.unshift(a);
+      state.users.filter(u => u.active && u.role === 'staff').forEach(s => {
+        notify(s.id, 'اعلان: ' + d.title, d.body);
+      });
+      logActivity('ann', `اعلان «${d.title}» منتشر شد`, getCurrentUser().id);
+      toast('اعلان منتشر شد');
+      commit();
+    }
+  });
+}
+function delAnn(id){
+  const a = state.announcements.find(x => x.id === id);
+  if(!a) return;
+  confirmDel('این اعلان حذف شود؟', ()=>{
+    state.announcements = state.announcements.filter(x => x.id !== id);
+    logActivity('ann', `اعلان «${a.title}» حذف شد`, getCurrentUser().id);
+  });
+}
+
+/* ============================================================
+   LEAVE
+   ============================================================ */
+function renderLeave(){
+  const me = getCurrentUser();
+  const isManager = me.role === 'manager';
+  const q = searchQuery.toLowerCase();
+  let list = state.leaveRequests.slice();
+  if(!isManager) list = list.filter(r => r.staffId === me.id);
+  if(q) list = list.filter(r => (r.reason || '').toLowerCase().includes(q));
+  list.sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
+
+  return `<div class="section">
+    <div class="section-head">
+      <h2>${isManager?'درخواست‌های مرخصی':'مرخصی‌های من'}</h2>
+      <div class="search-input">
+        ${ic('search',16)}
+        <input placeholder="جستجو..." value="${esc(searchQuery)}"
+          oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+      </div>
+    </div>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr>
+        <th>کارمند</th><th>از تاریخ</th><th>تا تاریخ</th><th>دلیل</th><th>وضعیت</th>${isManager?'<th></th>':''}
+      </tr></thead>
+      <tbody>${list.length ? list.map(r=>{
+        const u = state.users.find(x => x.id === r.staffId);
+        const days = daysBetween(r.fromDate, r.toDate) + 1;
+        const stc = r.status === 'تایید شده' ? 'ok' : r.status === 'رد شده' ? 'danger' : 'warn';
+        return `<tr>
+          <td data-label="کارمند"><b>${esc(u?.name || '--')}</b></td>
+          <td data-label="از تاریخ">${faDate(r.fromDate)}</td>
+          <td data-label="تا تاریخ">${faDate(r.toDate)}<div style="color:var(--slate-500);font-size:.75rem">${fmtNum(days)} روز</div></td>
+          <td data-label="دلیل">${esc(r.reason||'--')}</td>
+          <td data-label="وضعیت">${badge(r.status, stc)}</td>
+          ${isManager && r.status === 'در انتظار' ? `
+            <td class="actions-cell" style="display:flex;gap:6px;justify-content:flex-end">
+              <button class="icon-action" onclick="approveLeave('${r.id}')" title="تایید">${ic('check',15)}</button>
+              <button class="icon-action danger" onclick="rejectLeave('${r.id}')" title="رد">${ic('x',15)}</button>
+            </td>` : (isManager ? '<td></td>' : '')}
+        </tr>`;
+      }).join('') : `<tr><td colspan="${isManager?6:5}">${emptyState('inbox','درخواستی وجود ندارد','')}</td></tr>`}</tbody>
+    </table></div>
+  </div>`;
+}
+function leaveForm(){
+  openForm({
+    title: 'درخواست مرخصی جدید',
+    fields:[
+      {name:'fromDate', label:'از تاریخ', type:'date', required:true},
+      {name:'toDate', label:'تا تاریخ', type:'date', required:true},
+      {name:'reason', label:'دلیل مرخصی', type:'textarea', full:true}
+    ],
+    values: {fromDate: today(), toDate: today()},
+    onSubmit: d => {
+      if(d.toDate < d.fromDate){ toast('تاریخ پایان نباید قبل از شروع باشد', true); return false; }
+      const me = getCurrentUser();
+      const r = {id:uid(), staffId:me.id, fromDate:d.fromDate, toDate:d.toDate, reason:d.reason, status:'در انتظار', createdAt:nowISO()};
+      state.leaveRequests.push(r);
+      const mgr = state.users.find(u => u.role === 'manager' && u.active);
+      if(mgr) notify(mgr.id, 'درخواست مرخصی جدید', `${me.name} -- ${faDate(d.fromDate)} تا ${faDate(d.toDate)}`);
+      logActivity('leave', `${me.name} درخواست مرخصی ثبت کرد`, me.id);
+      toast('درخواست مرخصی ثبت شد');
+      commit();
+    }
+  });
+}
+function approveLeave(id){
+  const r = state.leaveRequests.find(x => x.id === id);
+  if(!r) return;
+  r.status = 'تایید شده';
+  notify(r.staffId, 'مرخصی تایید شد', `${faDate(r.fromDate)} تا ${faDate(r.toDate)}`);
+  logActivity('leave', `مرخصی تایید شد`, getCurrentUser().id);
+  commit(); toast('مرخصی تایید شد');
+}
+function rejectLeave(id){
+  const r = state.leaveRequests.find(x => x.id === id);
+  if(!r) return;
+  r.status = 'رد شده';
+  notify(r.staffId, 'مرخصی رد شد', `${faDate(r.fromDate)} تا ${faDate(r.toDate)}`);
+  logActivity('leave', `مرخصی رد شد`, getCurrentUser().id);
+  commit(); toast('مرخصی رد شد');
+}
+
+/* ============================================================
+   ATTENDANCE
+   ============================================================ */
+function renderAttendance(){
+  const me = getCurrentUser();
+  const isManager = me.role === 'manager';
+  const q = searchQuery.toLowerCase();
+  let list = state.attendance.slice();
+  if(!isManager) list = list.filter(a => a.staffId === me.id);
+  if(q) list = list.filter(a => (state.users.find(x=>x.id===a.staffId)?.name || '').toLowerCase().includes(q));
+  list.sort((a,b)=> b.date.localeCompare(a.date));
+
+  return `<div class="section">
+    <div class="section-head">
+      <h2>سوابق حضور و غیاب</h2>
+      <div class="search-input">
+        ${ic('search',16)}
+        <input placeholder="جستجوی کارمند..." value="${esc(searchQuery)}"
+          oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+      </div>
+    </div>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>کارمند</th><th>تاریخ</th><th>ورود</th><th>خروج</th><th>مدت</th></tr></thead>
+      <tbody>${list.length ? list.slice(0,100).map(a=>{
+        const u = state.users.find(x => x.id === a.staffId);
+        let dur = '--';
+        if(a.checkIn && a.checkOut){
+          const mins = Math.round((new Date(a.checkOut) - new Date(a.checkIn))/60000);
+          dur = Math.floor(mins/60) + ' ساعت و ' + (mins%60) + ' دقیقه';
+        }
+        return `<tr>
+          <td data-label="کارمند"><b>${esc(u?.name || '--')}</b></td>
+          <td data-label="تاریخ">${friendlyDate(a.date)}</td>
+          <td data-label="ورود">${a.checkIn ? fmtTime(a.checkIn) : '--'}</td>
+          <td data-label="خروج">${a.checkOut ? fmtTime(a.checkOut) : badge('در حال کار','ok')}</td>
+          <td data-label="مدت">${dur}</td>
+        </tr>`;
+      }).join('') : `<tr><td colspan="5">${emptyState('clock','سابقه‌ای ثبت نشده','')}</td></tr>`}</tbody>
+    </table></div>
+  </div>`;
+}
+function attendanceCheckin(){
+  const me = getCurrentUser();
+  const existing = state.attendance.find(a => a.staffId === me.id && a.date === today());
+  if(existing){ toast('قبلاً ورود ثبت شده', true); return; }
+  state.attendance.push({id:uid(), staffId:me.id, date:today(), checkIn:nowISO(), checkOut:null});
+  toast('ورود ثبت شد');
+  commit();
+}
+function attendanceCheckout(){
+  const me = getCurrentUser();
+  const existing = state.attendance.find(a => a.staffId === me.id && a.date === today());
+  if(!existing || !existing.checkIn){ toast('ابتدا ورود ثبت کنید', true); return; }
+  if(existing.checkOut){ toast('قبلاً خروج ثبت شده', true); return; }
+  existing.checkOut = nowISO();
+  toast('خروج ثبت شد');
+  commit();
+}
+
+/* ============================================================
+   STAFF
+   ============================================================ */
+function renderStaff(){
+  const q = searchQuery.toLowerCase();
+  const rows = state.users.filter(u => !q || (u.name + u.position + u.phone).toLowerCase().includes(q));
+  return `<div class="section">
+    <div class="section-head">
+      <h2>فهرست کارکنان و مدیران</h2>
+      <div class="search-input">
+        ${ic('search',16)}
+        <input placeholder="جستجوی کارمند..." value="${esc(searchQuery)}"
+          oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+      </div>
+    </div>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>کارمند</th><th>سمت</th><th>نقش</th><th>شیفت</th><th>رمز</th><th>وظایف</th><th>وضعیت</th><th></th></tr></thead>
+      <tbody>${rows.length ? rows.map(u=>{
+        const activeTasks = state.tasks.filter(t => t.staffId === u.id && t.status !== 'انجام شده').length;
+        return `<tr>
+          <td data-label="کارمند">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="avatar avatar-sm">${esc(u.name.charAt(0))}</div>
+              <div><b>${esc(u.name)}</b><div style="color:var(--slate-500);font-size:.75rem" dir="ltr">${esc(u.phone||'')}</div></div>
+            </div>
+          </td>
+          <td data-label="سمت">${esc(u.position||'--')}</td>
+          <td data-label="نقش">${badge(u.role==='manager'?'مدیر':'کارمند', u.role==='manager'?'warn':'info')}</td>
+          <td data-label="شیفت">${esc(u.shift||'--')}</td>
+          <td data-label="رمز">${u.pinChanged ? badge('تغییر یافته','ok') : badge('پیش‌فرض','warn')}</td>
+          <td data-label="وظایف">${activeTasks ? badge(fmtNum(activeTasks)+' وظیفه','info') : '--'}</td>
+          <td data-label="وضعیت">${badge(u.active?'فعال':'غیرفعال', u.active?'ok':'muted')}</td>
+          <td class="actions-cell" style="display:flex;gap:6px;justify-content:flex-end">
+            <button class="icon-action" onclick="editStaff('${u.id}')" title="ویرایش">${ic('edit',15)}</button>
+            <button class="icon-action" onclick="changePin('${u.id}')" title="تغییر رمز">${ic('key',15)}</button>
+            ${u.role !== 'manager' ? `
+              <button class="icon-action" onclick="toggleStaff('${u.id}')" title="فعال/غیرفعال">${ic('check',15)}</button>
+              <button class="icon-action danger" onclick="delStaff('${u.id}')" title="حذف">${ic('trash',15)}</button>
+            ` : ''}
+          </td>
+        </tr>`;
+      }).join('') : `<tr><td colspan="8">${emptyState('users','کارمندی یافت نشد','')}</td></tr>`}</tbody>
+    </table></div>
+  </div>`;
+}
+function staffForm(item){
+  openForm({
+    title: item ? 'ویرایش کاربر' : 'کارمند جدید',
+    fields:[
+      {name:'name', label:'نام و نام خانوادگی', required:true, full:true},
+      {name:'position', label:'سمت'},
+      {name:'phone', label:'تلفن همراه'},
+      {name:'shift', label:'شیفت', type:'select', options: SHIFTS},
+      {name:'role', label:'نقش', type:'select', options:[{value:'staff',label:'کارمند'},{value:'manager',label:'مدیر'}]},
+      {name:'active', label:'وضعیت', type:'select', options:['فعال','غیرفعال']}
+    ],
+    values: item ? {...item, active: item.active ? 'فعال':'غیرفعال'} : {shift:SHIFTS[0], role:'staff', active:'فعال'},
+    onSubmit: d => {
+      const data = {...d, active: d.active === 'فعال'};
+      if(item){ Object.assign(item, data); toast('اطلاعات ویرایش شد'); }
+      else {
+        const nu = {id:uid(), ...data, pin:hashPin(DEFAULT_PIN_STAFF), pinChanged:false};
+        state.users.push(nu);
+        logActivity('staff', `${nu.name} اضافه شد`, getCurrentUser().id);
+        toast(`کارمند اضافه شد (رمز پیش‌فرض: ${DEFAULT_PIN_STAFF})`);
+      }
+      commit();
+    }
+  });
+}
+function editStaff(id){ const u = state.users.find(x => x.id === id); if(u) staffForm(u); }
+function toggleStaff(id){
+  const u = state.users.find(x => x.id === id);
+  if(!u || u.role === 'manager') return;
+  u.active = !u.active;
+  commit();
+  toast(`${u.name} ${u.active ? 'فعال' : 'غیرفعال'} شد`);
+}
+function delStaff(id){
+  const u = state.users.find(x => x.id === id);
+  if(!u || u.role === 'manager') return;
+  confirmDel(`${u.name} حذف شود؟`, ()=>{
+    state.users = state.users.filter(x => x.id !== id);
+    logActivity('staff', `${u.name} حذف شد`, getCurrentUser().id);
+  });
+}
+
+/* ============================================================
+   CHANGE PIN
+   ============================================================ */
+function changePin(id){
+  const u = state.users.find(x => x.id === id);
+  if(!u) return;
+  const isSelf = getCurrentUser().id === id;
+  openForm({
+    title: isSelf ? 'تغییر رمز ورود من' : `تغییر رمز ${u.name}`,
+    fields:[
+      {name:'pin', label:'رمز جدید (حداقل ۴ کاراکتر)', required:true, full:true, type:'password'}
+    ],
+    values: {},
+    onSubmit: d => {
+      if(!d.pin || d.pin.length < 4){
+        toast('رمز باید حداقل ۴ کاراکتر باشد', true);
+        return false;
+      }
+      u.pin = hashPin(d.pin);
+      u.pinChanged = true;
+      if(!isSelf){
+        notify(u.id, 'رمز ورود شما تغییر کرد', 'مدیر رمز ورود شما را تغییر داد');
+        logActivity('pin', `رمز ${u.name} توسط مدیر تغییر کرد`, getCurrentUser().id);
+      } else {
+        logActivity('pin', `${u.name} رمز خود را تغییر داد`, u.id);
+      }
+      toast('رمز ورود با موفقیت تغییر کرد');
+      commit();
+    }
+  });
+}
+
+/* ============================================================
+   LOCKERS
+   ============================================================ */
+function renderLockers(){
+  const q = searchQuery.toLowerCase();
+  const rows = state.lockers.filter(l => !q || (l.number + l.renter).toLowerCase().includes(q));
+  const occupied = state.lockers.filter(l => l.status === 'اجاره‌ای').length;
+  return `<div class="section">
+    <div class="section-head">
+      <h2>کمدهای سالن مطالعه</h2>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span class="sub">${fmtNum(occupied)} اجاره‌ای • ${fmtNum(state.lockers.length-occupied)} آزاد</span>
+        <div class="search-input">
+          ${ic('search',16)}
+          <input placeholder="جستجوی کمد..." value="${esc(searchQuery)}"
+            oninput="searchQuery=this.value; render(); const i=this; requestAnimationFrame(()=>{i.focus();i.setSelectionRange(i.value.length,i.value.length)})">
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>شماره</th><th>مستأجر</th><th>تلفن</th><th>شروع</th><th>پایان</th><th>مبلغ</th><th>وضعیت</th><th></th></tr></thead>
+      <tbody>${rows.length ? rows.map(l=>{
+        const expired = l.status === 'اجاره‌ای' && l.end && l.end < today();
+        const left = l.end ? daysBetween(today(), l.end) : null;
+        let st = badge(l.status, l.status==='اجاره‌ای'?'ok':'muted');
+        if(expired) st = badge('منقضی شده','danger');
+        else if(l.status === 'اجاره‌ای' && left !== null && left <= 7) st = badge(`انقضا ${fmtNum(left)} روز`,'warn');
+        return `<tr>
+          <td data-label="شماره"><b>${esc(l.number)}</b></td>
+          <td data-label="مستأجر">${esc(l.renter||'--')}</td>
+          <td data-label="تلفن" dir="ltr">${esc(l.phone||'--')}</td>
+          <td data-label="شروع">${faDate(l.start)}</td>
+          <td data-label="پایان">${faDate(l.end)}</td>
+          <td data-label="مبلغ">${l.fee ? fmtNum(l.fee)+' تومان':'--'}</td>
+          <td data-label="وضعیت">${st}</td>
+          <td class="actions-cell" style="display:flex;gap:6px;justify-content:flex-end">
+            ${l.status === 'اجاره‌ای' ? `<button class="icon-action" onclick="freeLocker('${l.id}')" title="تخلیه">${ic('lock',15)}</button>` : ''}
+            <button class="icon-action" onclick="editLocker('${l.id}')" title="ویرایش">${ic('edit',15)}</button>
+            <button class="icon-action danger" onclick="delLocker('${l.id}')" title="حذف">${ic('trash',15)}</button>
+          </td>
+        </tr>`;
+      }).join('') : `<tr><td colspan="8">${emptyState('lock','کمدی یافت نشد','')}</td></tr>`}</tbody>
+    </table></div>
+  </div>`;
+}
+function lockerForm(item){
+  openForm({
+    title: item ? 'ویرایش کمد' : 'کمد جدید',
+    fields:[
+      {name:'number', label:'شماره کمد', required:true},
+      {name:'status', label:'وضعیت', type:'select', options:['آزاد','اجاره‌ای']},
+      {name:'renter', label:'نام مستأجر', full:true},
+      {name:'phone', label:'تلفن مستأجر'},
+      {name:'fee', label:'مبلغ ماهانه (تومان)', type:'number'},
+      {name:'start', label:'تاریخ شروع', type:'date'},
+      {name:'end', label:'تاریخ پایان', type:'date'}
+    ],
+    values: item || {status:'آزاد', fee:350000, start: today()},
+    onSubmit: d => {
+      if(d.status === 'اجاره‌ای' && !d.renter){ toast('برای کمد اجاره‌ای نام مستأجر الزامی است', true); return false; }
+      if(item){ Object.assign(item, d); toast('کمد ویرایش شد'); }
+      else { state.lockers.push({id:uid(), ...d}); toast('کمد ثبت شد'); }
+      commit();
+    }
+  });
+}
+function editLocker(id){ const l = state.lockers.find(x => x.id === id); if(l) lockerForm(l); }
+function delLocker(id){ confirmDel('این کمد حذف شود؟', ()=>{ state.lockers = state.lockers.filter(l => l.id !== id); }); }
+function freeLocker(id){
+  const l = state.lockers.find(x => x.id === id);
+  if(!l) return;
+  if(!confirm(`کمد ${l.number} تخلیه شود؟`)) return;
+  Object.assign(l, {status:'آزاد', renter:'', phone:'', start:'', end:''});
+  commit(); toast('کمد آزاد شد');
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function renderSettings(){
+  const me = getCurrentUser();
+  const isManager = me.role === 'manager';
+  const dataSize = (new Blob([JSON.stringify(state)]).size / 1024).toFixed(1);
+
+  return `
+  <div class="section">
+    <div class="section-head"><h2>اطلاعات حساب</h2></div>
+    <div style="padding:20px">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+        <div class="avatar avatar-lg">${esc(me.name.charAt(0))}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:1rem;font-weight:700">${esc(me.name)}</div>
+          <div style="color:var(--slate-500);font-size:.8125rem;margin-top:2px">${esc(me.position)} • ${esc(me.shift)}</div>
+          <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+            ${badge(me.role==='manager'?'مدیر':'کارمند', me.role==='manager'?'warn':'info')}
+            ${me.pinChanged ? badge('رمز شخصی','ok') : badge('رمز پیش‌فرض','danger')}
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="changePin('${me.id}')">${ic('key',16)} تغییر رمز ورود من</button>
+      ${!me.pinChanged ? `<p style="color:var(--warn-700);font-size:.8125rem;margin-top:12px;background:var(--warn-50);padding:10px 12px;border-radius:var(--r-sm)">${ic('alertTriangle',14)} رمز شما هنوز پیش‌فرض است. توصیه می‌شود آن را تغییر دهید.</p>` : ''}
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>وضعیت ذخیره‌سازی</h2></div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span style="color:var(--slate-600);font-size:.8125rem">آخرین ذخیره</span>
+        <span style="font-weight:600;font-size:.8125rem">${lastSavedAt ? timeAgo(new Date(lastSavedAt).toISOString()) : 'در انتظار'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span style="color:var(--slate-600);font-size:.8125rem">حجم داده</span>
+        <span style="font-weight:600;font-size:.8125rem">${dataSize} کیلوبایت</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <span style="color:var(--slate-600);font-size:.8125rem">کاربران / وظایف / رویدادها</span>
+        <span style="font-weight:600;font-size:.8125rem">${fmtNum(state.users.length)} / ${fmtNum(state.tasks.length)} / ${fmtNum(state.events.length)}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>پشتیبان‌گیری</h2></div>
+    <div style="padding:20px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" onclick="exportBackup()">${ic('download',16)} دانلود فایل پشتیبان</button>
+      ${isManager ? `<button class="btn" onclick="document.getElementById('restoreFile').click()">${ic('upload',16)} بازیابی از فایل</button>` : ''}
+    </div>
+    <div style="padding:0 20px 20px;color:var(--slate-500);font-size:.75rem;line-height:1.7">
+      ${ic('alertCircle',12)} اطلاعات به‌طور خودکار در مرورگر شما ذخیره می‌شود. برای انتقال بین دستگاه‌ها از فایل پشتیبان استفاده کنید.
+    </div>
+  </div>
+
+  ${isManager ? `
+  <div class="section">
+    <div class="section-head"><h2 style="color:var(--danger-600)">منطقه خطر</h2></div>
+    <div style="padding:20px">
+      <p style="color:var(--slate-500);font-size:.8125rem;margin-bottom:12px">حذف کامل همه داده‌ها. قابل بازگشت نیست.</p>
+      <button class="btn btn-danger" onclick="resetAll()">${ic('trash',16)} پاک کردن همه داده‌ها</button>
+    </div>
+  </div>` : ''}
+  `;
+}
+function resetAll(){
+  if(!confirm('همه داده‌ها پاک شود؟')) return;
+  if(!confirm('مطمئنید؟ همه کاربران، وظایف، رویدادها و کمدها حذف می‌شوند.')) return;
+  localStorage.removeItem(KEY);
+  localStorage.removeItem(BACKUP_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
+  state = load();
+  logout();
+  toast('همه داده‌ها بازنشانی شد');
+}
+
+/* ============================================================
+   BACKUP
+   ============================================================ */
+function exportBackup(){
+  const exportData = {
+    ...state,
+    _exportedAt: nowISO(),
+    _exportedBy: getCurrentUser()?.name || 'نامشخص',
+    _schemaVersion: SCHEMA_VERSION
+  };
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `library-backup-${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('فایل پشتیبان دانلود شد');
+}
+
+function importBackup(e){
+  const me = getCurrentUser();
+  if(!me || me.role !== 'manager'){
+    toast('فقط مدیر می‌تواند اطلاعات را بازیابی کند', true);
+    e.target.value = '';
+    return;
+  }
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    let data;
+    try{ data = JSON.parse(ev.target.result); }catch(err){ toast('فایل JSON معتبر نیست', true); e.target.value = ''; return; }
+    if(!validateState(data)){ toast('ساختار فایل نامعتبر است', true); e.target.value = ''; return; }
+    const userCount = data.users.length;
+    const taskCount = Array.isArray(data.tasks) ? data.tasks.length : 0;
+    if(!confirm(`این فایل شامل ${userCount} کاربر و ${taskCount} وظیفه است.\n\nهمه اطلاعات فعلی با این فایل جایگزین شود؟`)){
+      e.target.value = '';
+      return;
+    }
+    try{
+      const normalized = migrateState(data);
+      state = normalized;
+      const res = save();
+      if(!res.ok){ toast(res.message, true); return; }
+      const stillExists = getCurrentUser();
+      if(!stillExists){
+        toast('بازیابی انجام شد اما حساب شما در داده جدید یافت نشد. لطفاً دوباره وارد شوید.', true);
+        logout(); return;
+      }
+      renderSidebar(); renderBottomNav(); renderTopbar(); render();
+      toast('پشتیبان با موفقیت بازیابی شد');
+    }catch(err){ toast('خطا در بازیابی: ' + err.message, true); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+/* ============================================================
+   ADD ROUTER
+   ============================================================ */
+function handleAdd(){
+  const me = getCurrentUser();
+  if(!me) return;
+  const fns = {
+    tasks: ()=>taskForm(),
+    events: ()=>eventForm(),
+    announcements: ()=>annForm(),
+    leave: ()=>leaveForm(),
+    staff: ()=>staffForm(),
+    lockers: ()=>lockerForm()
+  };
+  (fns[currentView] || (()=>{}))();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init(){
+  registerServiceWorker();
+  state = load();
+  const me = getCurrentUser();
+  if(me){ showApp(); }
+  else { renderLoginScreen(); }
+}
+
+document.addEventListener('gesturestart', e => e.preventDefault());
+window.addEventListener('beforeunload', () => { if(state) save(); });
+init();
+</script>
+</body>
+</html>
